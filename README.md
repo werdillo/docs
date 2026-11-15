@@ -6,10 +6,11 @@ built from the section's documents, never written beside them.
 
 | Section | What it holds |
 |---|---|
+| [`shared/`](./shared/README.md) | What every section has in common — feature matrix design: the core words, the matrix, and what they are in each section. |
 | [`software/`](./software/README.md) | How software is built — principles by kind of program, and guides to the languages. |
 | [`design/`](./design/README.md) | How products look and behave — foundations, design languages, the design system. |
 | [`hardware/`](./hardware/README.md) | How a device is built around its firmware — the board in KiCad, the body in FreeCAD. |
-| [`bizdev/`](./bizdev/README.md) | *Planned.* |
+| [`bizdev/`](./bizdev/README.md) | How a product is drawn — from the idea to the matrix of domains, boxes and processes that design and code are built from. |
 
 ## Conventions
 

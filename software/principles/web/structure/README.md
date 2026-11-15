@@ -1,5 +1,7 @@
 # Structure
 
+> **Shared core.** The idea of a matrix — boxes, `shared` below them, processes above, and the order in which boxes interact — is defined once for every section of this repository in [`shared/`](../../../../shared/matrix.md). That is the source: this page applies it to its own field, and where the two disagree, `shared/` wins and this page is fixed.
+
 The architecture, in one idea: the code is **a set of matrices** that interact
 by rules. A matrix is a set of boxes and the rule of which may reach which —
 drawn as a grid, the rows and the columns are the same boxes, and a cell says

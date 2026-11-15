@@ -1,5 +1,7 @@
 # Structure
 
+> **Shared core.** The idea of a matrix — boxes, their doors, the levels around them — is defined once for every section of this repository in [`shared/`](../../../../shared/matrix.md). That is the source: this page applies it to its own field, and where the two disagree, `shared/` wins and this page is fixed.
+
 Where code goes. The idea in one sentence: the code is **a stack of boxes**,
 each one subject with its own state, and an import points down the stack.
 

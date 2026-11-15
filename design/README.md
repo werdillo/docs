@@ -4,6 +4,8 @@ How products look and behave, written precisely enough that a design can be
 generated from it: numbers instead of adjectives, tokens as data, components
 and screens as specifications.
 
+It uses the words of [`shared/`](../shared/README.md): a domain is a section of the navigation, a box is the screens of one subject ([mapping](../shared/mapping.md)).
+
 | Folder | What it holds |
 |---|---|
 | [`foundations/`](./foundations/README.md) | Principles that hold for any product — hierarchy, type, colour, spacing, motion, accessibility. |

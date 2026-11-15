@@ -1,5 +1,7 @@
 # The words
 
+> **Shared core.** The core words — box, door, owner, matrix, `shared`, process, layer, domain, composition root — are defined once for every section of this repository in [`shared/`](../../../shared/words.md). That is the source: this page applies it to its own field, and where the two disagree, `shared/` wins and this page is fixed.
+
 One word per thing, and the same word in every document. From the outside in:
 
 | Word | What it is |

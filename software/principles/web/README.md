@@ -15,6 +15,8 @@ project needs** — new, small or existing ([how to use this](#how-to-use-this))
 
 The vocabulary is in [`words.md`](./words.md), and the principles 1–48 in one list in [`rules.md`](./rules.md).
 
+The core of the architecture — the words and the matrix, shared by every section of this repository — is in [`shared/`](../../../shared/README.md).
+
 **New here?** Take the [one page](./cheatsheet.md), or read [when it is
 overkill](#scope) and [adopting it](#how-to-use-this).
 

@@ -16,6 +16,8 @@ in [`sources/`](./sources/README.md).
 The vocabulary is in [`words.md`](./words.md), and the principles 1–44 in one
 list in [`rules.md`](./rules.md).
 
+The core words and the matrix, shared by every section of this repository, are in [`shared/`](../../../shared/README.md).
+
 **New here?** Take the [one page](./cheatsheet.md), then the page for
 [the kind of program](./kinds/README.md) you are writing.
 
