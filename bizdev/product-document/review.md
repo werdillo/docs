@@ -70,5 +70,5 @@ Check, Found, Proposed, Kind (gap, contradiction, ambiguity, style). End with
 whether the gate passes, and which items still fail.
 ```
 
-The same instructions become the review skill in
-[`bizdev/skills/`](../skills/README.md) once it is built.
+The same instructions, as a skill an agent loads by itself, are
+[`product-document-review`](../skills/product-document-review/SKILL.md).

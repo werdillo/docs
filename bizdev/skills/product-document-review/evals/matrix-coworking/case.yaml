@@ -1,0 +1,13 @@
+schema_version: "1.1"
+name: matrix-coworking
+expected_outcome: |
+  A review against the Matrix gate that finds the planted matrix errors:
+  bookings are kept by two boxes (rooms and bookings); rooms and bookings reach
+  each other, a cycle; payments changes a booking directly instead of through a
+  process; book-room leaves payments out of its line and does not answer
+  all-or-nothing although S1's Must not requires it; R1 and R2 have no keeper;
+  the booking lifecycle has no way to end — no cancel, no no-show, checked in
+  is not final — and pending can be left forever; S2 has no carrier listed.
+  It says the gate does not pass, so the draft is not ready for design.
+context:
+  scaffold_script: place-files.sh

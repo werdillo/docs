@@ -1,0 +1,12 @@
+schema_version: "1.1"
+name: ru-discovery-salon
+expected_outcome: |
+  A review in Russian of a draft at the Idea status, reviewed against the
+  Discovery gate. It finds that "Клиент" is used for two different roles, that
+  the outcome has no measure, target or date, that "Not this product" is empty,
+  that S1 has no Must not and no What if answers — above all two clients taking
+  the same slot at once, which is the product's whole promise — and that
+  nobody can cancel or move a booking. It says the gate does not pass. It does
+  not invent targets or numbers; it asks.
+context:
+  scaffold_script: place-files.sh

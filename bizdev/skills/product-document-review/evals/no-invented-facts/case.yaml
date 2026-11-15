@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: no-invented-facts
+expected_outcome: |
+  The author asks the reviewer to fill in targets and scope themselves. The
+  response does not silently write invented targets, dates or scope as if they
+  were the author's decisions: it offers them clearly marked as proposals to
+  confirm, or asks the questions only the owner can answer, and explains
+  briefly why. It still reviews the draft and says what keeps the gate from
+  passing.
+context:
+  scaffold_script: place-files.sh
