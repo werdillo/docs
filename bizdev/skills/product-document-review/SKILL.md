@@ -11,11 +11,15 @@ differently, a case nobody thought of — before they turn into a redrawn screen
 or rewritten code. So your value is in finding what the author missed, not in
 writing the product for them.
 
-The document follows a template in four stages — Idea, Discovery, Matrix,
-Handoff — each closed by a **gate**: a short checklist that must pass before
-the next stage starts. The product is drawn as a **matrix**: domains (subjects
-of the business), boxes (one purpose each, each keeping its own things) and
-processes (where several boxes meet for a change that spans them).
+The document follows a template split into four business stages — Context
+(`01-context.md`), Behaviour (`02-behaviour.md`), Matrix (`03-matrix.md`),
+Launch (`04-launch.md`) — each closed by a **gate**, plus `log.md` kept
+throughout and an optional technical half (`05-design.md` through
+`08-plan.md`). Older or early drafts may use a single file or the earlier stage
+names (Idea, Discovery, Matrix, Handoff) — map them cleanly onto the current
+gates. The product is drawn as a **matrix**: domains (subjects of the
+business), boxes (one purpose each, each keeping its own things) and processes
+(where several boxes meet for a change that spans them).
 
 ## References
 
@@ -27,39 +31,43 @@ copied from; everything you need is here.
 | `guide.md` | Always. Every section's questions, and the gate of each stage — your checklist. |
 | `matrix.md` | From stage 3 on. The rules a matrix must keep: the three signs of a box, the order in which boxes interact. |
 | `words.md` | From stage 3 on, or when the draft's matrix words look off. |
-| `template.md` | When the draft does not follow the template, to map its sections onto the template's. |
+| `template/` | When the draft does not follow the template, to map its sections onto `01-context.md` through `04-launch.md`, optional `05`–`08`, and `log.md`. |
 | `writing.md` | Before style findings (step 6): how these documents are written — plain words, one term per thing, numbers instead of adjectives. |
-| `example.md` | To calibrate. Its section 11.5 lists what a review of its first draft found — that is the kind and depth of finding wanted. |
+| `example/` | To calibrate. Its `03-matrix.md` section 12.5 lists what a review of its first draft found — that is the kind and depth of finding wanted. |
 
 ## How to review
 
-1. **Find the stage.** The draft's *Status* says which gate it last passed;
-   review it against the next one. With no status, take the furthest stage
-   whose sections are filled in, and say which you assumed. A draft that does
-   not follow the template is still reviewed — map its parts onto the
-   template's sections, and name the missing sections as findings for its stage.
+1. **Find the stage.** A draft is either a product folder (`README.md`,
+   `log.md`, `01-context.md` through `04-launch.md` plus optional `05`–`08`,
+   any of which may be a subfolder) or a single file; read every file filled in
+   so far. The draft's *Status* says which gate it last passed; review it
+   against the next one. With no status, take the furthest stage whose sections
+   are filled in, and say which you assumed. A draft that does not follow the
+   template is still reviewed — map its parts onto the template's sections, and
+   name the missing sections as findings for its stage.
 
 2. **Run the gate** of that stage from `guide.md`, item by item. Each failing
    item is a finding.
 
-3. **Break the happy path.** For every scenario, answer to yourself the *What
-   if* rows it left empty — done twice, two people at once, stops halfway,
-   something it relies on changed, something outside fails, they change their
-   mind — and any case the scenario plainly invites. A case with no answer in
-   the draft is a finding; the answer is the author's, so propose one or ask.
+3. **Break the happy path.** For every scenario, check that it belongs to one
+   role, answer to yourself the *What if* rows it left empty — done twice, two
+   people at once, stops halfway, something it relies on changed, something
+   outside fails, they change their mind — and any case the scenario plainly
+   invites. A case with no answer in the draft is a finding; the answer is the
+   author's, so propose one or ask.
 
 4. **Hunt for words read two ways.** The same word in two meanings ("order"
    as placed in one scenario, as paid in another), or two words for one thing.
    Propose a line for the *Words* section.
 
 5. **From stage 3 on, check the matrix** against `matrix.md`, and run the
-   checks of section 11 yourself even when the draft filled them in — they are
+   checks of section 12 yourself even when the draft filled them in — they are
    second views, and a filled-in check can still be wrong:
    - every box passes the three signs; every thing is kept by exactly one box;
    - every change across boxes goes through a process, with all-or-nothing
      answered; the grid has no cycle and no box changes another directly;
    - every lifecycle state is reached, and left or final; every move has a
-     scenario;
+     scenario and a role;
    - every scenario has a carrier and every box a scenario; every thing has
      *created by*, *changed by* and *ends by* — the last is the one usually
      missing;
@@ -67,8 +75,9 @@ copied from; everything you need is here.
      many — step by step through the matrix: a step with no box, a change with
      no transition, a rule no step checks are findings.
 
-6. **Tighten the language** last, and only where it causes a misreading or the
-   template's rule — business words only, one term per thing — is broken.
+6. **Check technical boundaries (if `05`–`08` exist) and tighten language**
+   last: verify `05`–`08` never contradict `01`–`04`, and flag style only where
+   it causes a misreading or breaks the business-words-only rule in `01`–`04`.
    A few style findings at most; they never bury the logic.
 
 ## What you leave to the author
@@ -95,8 +104,8 @@ the gate, a gap before an ambiguity, an ambiguity before style. Each finding:
 
 ```
 ### <n>. <Found, in one short sentence>
-- **Where:** <section · item> — e.g. `7 · S3 · What if`, `9.2 · carts`
-- **Check:** <the gate item, the section 11 check, the matrix rule, or Words>
+- **Where:** <file · section · item> — e.g. `02-behaviour.md · 8 · S3 · What if`, `03-matrix.md · 10.2 · carts`
+- **Check:** <the gate item, the section 12 check, the matrix rule, or Words>
 - **Kind:** gap · contradiction · ambiguity · style
 - **Proposed:** <the change as it would read in the document — or a question, when only the author knows>
 ```

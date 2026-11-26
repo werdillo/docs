@@ -11,15 +11,16 @@ that matrix becomes.
 | **Door** | What the capability offers others | — | Its entry file — `index.ts` in TypeScript, the public surface in other languages | Its `root.zig`; what is `pub` |
 | **Owner** | Who is the source of truth for a piece of data | The one screen where a thing is edited | The box whose tables or state hold it | The box that holds the state, and frees it |
 | **`shared`** | What every capability of a domain relies on | The design system and the patterns | A `shared/` folder of a matrix | A low subject box (such as `board` in firmware), when several boxes share subject types |
-| **Process** | A business process across capabilities | A flow across subjects' screens | `_processes/` above a matrix's boxes | A box higher in the layer map, or `main` |
-| **Layer** | — | Foundations ← system ← screens | `core ← features ← domains ← app` (a front end adds `components` between `core` and `features`) | `limits ← core ← boxes ← main`, the layer map in `build.zig` |
-| **Composition root** | The product document itself | The navigation | `app` | `main` |
+| **Process** | A business process across capabilities | A `flow` (write) or composite `list`/`canvas` (read) across subjects | `_processes/` above a matrix's boxes | A box higher in the layer map, or `main` |
+| **Layer** | — | `foundations ← system ← patterns ← screens` | `core ← features ← domains ← app` (a front end adds `components` between `core` and `features`) | `limits ← core ← boxes ← main`, the layer map in `build.zig` |
+| **Composition root** | The product document itself | The application shell and navigation declaration | `app` | `main` |
 
 Each section's own documents are the full text:
+[design](../design/words.md),
 [web](../software/principles/web/words.md),
 [low-level](../software/principles/low-level/words.md). Product adopts these words as
-they are written. The design column is a first draft: whether design reasons
-in the matrix, and how far, is still open.
+they are written; design maps the matrix to screens in
+[from matrix to screens](../design/process/from-matrix.md).
 
 **Hardware** is not mapped yet: one capability can touch the board, the body
 and the firmware at once, and how a box is drawn there is an open question.

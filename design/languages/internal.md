@@ -1,13 +1,21 @@
 # The design language
 
 How an **internal system** behaves and looks — an admin, a back office, a tool
-staff keep open all day. **Linear is the reference for behaviour**: its action
-menus, its buttons in the bar, its density, its keyboard and its screen shapes.
-Where a rule below and Linear disagree, the rule wins; where the rules are
-silent, Linear is a good guess. **The look is the product's own**, in the
-manner of the system apps of a desktop OS, and is not a copy of Linear's
-([the look](#the-look)). A public site or a storefront has its own design and
-does not follow this page.
+staff keep open all day. Two references anchor it:
+
+- **Linear for UX and behaviour** — its action menus, buttons in the header
+  bar, list density, keyboard shortcuts, filter/display bars, instant
+  optimistic writes and four screen shapes.
+- **Apple's desktop system apps (macOS / HIG) for colour palette, materials
+  and control feel** — quiet neutral greys, crisp white surfaces on a soft
+  canvas, translucent floating chrome, one clear system accent, soft semantic
+  tints, segmented tracks and pill switches.
+
+Where a rule below and either reference disagree, the rule wins; where the
+rules are silent, Linear is the default guess for interaction and Apple's
+system apps are the default guess for colour and surface treatment
+([references](../references/internal.md)). A public site or a storefront
+follows [the public language](./public.md) instead.
 
 The theme's values may start from an OpenDesign design system
 ([tokens](../system/tokens.md)); the names are the standard, the values are the
@@ -128,7 +136,7 @@ its subject.
   below the fold reserves its height while it loads, a field whose choices come
   later is drawn disabled, and nothing animates height.
 - **Motion is short and only on what moves**, with the motion tokens for its
-  duration and easing ([tokens](../system/tokens.md#the-names)); reduced motion removes it.
+  duration and easing ([tokens](../system/tokens.md#tier-1-opendesign-contract-names)); reduced motion removes it.
 
 ## Quiet feedback
 

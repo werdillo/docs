@@ -114,7 +114,9 @@ this page is fixed.
   one numbered list —, `cheatsheet.md`, `example/`, `open-questions.md`. A set
   that is smaller keeps the README and the words.
 - **The README says how to read the folder** when the order matters: what
-  first, what next, what only when a question calls for it.
+  first, what next, what only when a question calls for it. Two-digit prefixes
+  (`01-`, `02-`) are used only when files are strictly ordered stages of one
+  document (such as a product document).
 
 ## Links
 

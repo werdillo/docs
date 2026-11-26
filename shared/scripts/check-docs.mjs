@@ -13,7 +13,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 
-const repoRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const repoRoot = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..", "..");
 
 const IGNORE_DIRS = new Set([".git", "node_modules", "test-data"]);
 
@@ -129,6 +129,36 @@ for (const file of mdFiles) {
   }
 }
 
+function compareDirSync(srcDir, dstDir, labelPrefix) {
+  const srcEntries = fs.readdirSync(srcDir, { withFileTypes: true }).filter((e) => !e.name.startsWith("."));
+  const dstEntries = fs.existsSync(dstDir)
+    ? fs.readdirSync(dstDir, { withFileTypes: true }).filter((e) => !e.name.startsWith("."))
+    : [];
+  const srcNames = new Set(srcEntries.map((e) => e.name));
+  for (const d of dstEntries) {
+    if (!srcNames.has(d.name)) {
+      failures.push(`[refs] Extra file in built copy: ${path.relative(repoRoot, path.join(dstDir, d.name))} (run shared/scripts/build-skills.sh)`);
+    }
+  }
+  for (const s of srcEntries) {
+    const sp = path.join(srcDir, s.name);
+    const dp = path.join(dstDir, s.name);
+    if (s.isDirectory()) {
+      if (!fs.existsSync(dp) || !fs.statSync(dp).isDirectory()) {
+        failures.push(`[refs] Missing built folder ${path.relative(repoRoot, dp)} (run shared/scripts/build-skills.sh)`);
+      } else {
+        compareDirSync(sp, dp, labelPrefix);
+      }
+    } else if (!fs.existsSync(dp)) {
+      failures.push(`[refs] Missing built copy ${path.relative(repoRoot, dp)} (run shared/scripts/build-skills.sh)`);
+    } else if (!fs.readFileSync(sp).equals(fs.readFileSync(dp))) {
+      failures.push(
+        `[refs] Out of sync: ${path.relative(repoRoot, dp)} differs from ${path.relative(repoRoot, sp)} (run shared/scripts/build-skills.sh)`
+      );
+    }
+  }
+}
+
 // 3. Skill references/ sync check
 for (const section of fs.readdirSync(repoRoot, { withFileTypes: true })) {
   if (!section.isDirectory() || section.name.startsWith(".") || IGNORE_DIRS.has(section.name)) {
@@ -136,7 +166,7 @@ for (const section of fs.readdirSync(repoRoot, { withFileTypes: true })) {
   }
   const buildScript = path.join(repoRoot, section.name, "skills", "build.sh");
   if (!fs.existsSync(buildScript)) continue;
-  // Parse cp "$repo/<src>" "$refs/<dst>" lines in build.sh
+  // Parse cp / cp -R "$repo/<src>" "$refs/<dst>" lines in build.sh
   const scriptText = fs.readFileSync(buildScript, "utf8");
   let currentRefs = null;
   for (const rawLine of scriptText.split("\n")) {
@@ -146,17 +176,23 @@ for (const section of fs.readdirSync(repoRoot, { withFileTypes: true })) {
       currentRefs = path.join(repoRoot, section.name, "skills", refsMatch[1]);
       continue;
     }
-    const cpMatch = line.match(/^cp\s+"\$repo\/([^"]+)"\s+"\$refs\/([^"]+)"/);
+    const cpMatch = line.match(/^cp(?:\s+-R)?\s+"\$repo\/([^"]+)"\s+"\$refs\/([^"]+)"/);
     if (cpMatch && currentRefs) {
       const src = path.join(repoRoot, cpMatch[1]);
       const dst = path.join(currentRefs, cpMatch[2]);
       if (!fs.existsSync(src)) {
         failures.push(`[refs] Missing source ${cpMatch[1]} referenced by ${section.name}/skills/build.sh`);
+      } else if (fs.statSync(src).isDirectory()) {
+        if (!fs.existsSync(dst) || !fs.statSync(dst).isDirectory()) {
+          failures.push(`[refs] Missing built folder ${path.relative(repoRoot, dst)} (run shared/scripts/build-skills.sh)`);
+        } else {
+          compareDirSync(src, dst, cpMatch[1]);
+        }
       } else if (!fs.existsSync(dst)) {
-        failures.push(`[refs] Missing built copy ${path.relative(repoRoot, dst)} (run scripts/build-skills.sh)`);
+        failures.push(`[refs] Missing built copy ${path.relative(repoRoot, dst)} (run shared/scripts/build-skills.sh)`);
       } else if (!fs.readFileSync(src).equals(fs.readFileSync(dst))) {
         failures.push(
-          `[refs] Out of sync: ${path.relative(repoRoot, dst)} differs from ${cpMatch[1]} (run scripts/build-skills.sh)`
+          `[refs] Out of sync: ${path.relative(repoRoot, dst)} differs from ${cpMatch[1]} (run shared/scripts/build-skills.sh)`
         );
       }
     }

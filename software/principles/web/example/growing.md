@@ -1,7 +1,7 @@
 # Growing the shop
 
 The first version of Small shop
-([the product document](../../../../bizdev/product-document/example.md)) ships
+([the product document](../../../../bizdev/product-document/example/README.md)) ships
 with `products`, `carts`, `stock`, `orders`, `place-order`, `cancel-order` and
 `browse-catalogue`, served by the API, the public site (`apps/site/`) and the
 admin (`apps/admin/`). The steps below are **v2 of the shop**: adding admin

@@ -25,7 +25,10 @@ The full style is in [`shared/writing.md`](./shared/writing.md); in short:
 
 ## Building and checking
 
-- `./scripts/build-skills.sh` — rebuilds every skill's `references/` from the
-  source documents.
-- `node ./scripts/check-docs.mjs` — verifies folder READMEs, relative Markdown
-  links and anchors, `references/` sync, British spelling and rule style.
+- `./shared/scripts/build-skills.sh` — rebuilds every skill's `references/` from
+  the source documents.
+- `node ./shared/scripts/check-docs.mjs` — verifies folder READMEs, relative
+  Markdown links and anchors, `references/` sync, British spelling and rule
+  style.
+- `node ./shared/scripts/bundle-product-doc.mjs <folder> [--business | --all]`
+  — compiles a product document folder into one shareable Markdown file.

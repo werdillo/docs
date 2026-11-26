@@ -2,7 +2,7 @@
 # Rebuilds every skill's references/ across all sections from the source docs.
 set -euo pipefail
 
-repo="$(cd "$(dirname "$0")/.." && pwd)"
+repo="$(cd "$(dirname "$0")/../.." && pwd)"
 found=0
 
 for script in "$repo"/*/skills/build.sh; do

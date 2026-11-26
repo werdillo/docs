@@ -127,7 +127,7 @@ link that was right before it.
 ## 5. The product list: a process that reads
 
 In the first version of the shop
-([the product document](../../../../bizdev/product-document/example.md)),
+([the product document](../../../../bizdev/product-document/example/README.md)),
 `browse-catalogue` reads `products` and `stock`. Here it also reads `carts` so
 each storefront tile shows how many are already in the shopper's open cart —
 three boxes, which do not join. The answer is put together in a process that

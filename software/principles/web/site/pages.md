@@ -55,8 +55,10 @@ export const productPageHead: HeadOf<ProductView> = (product) => ({
   page cannot forget one and no page writes them by hand
   ([the kit is the only place that draws](../ui/kit.md#the-kit-is-the-only-place-that-draws)).
 - **The words are the business's.** A title uses the words the product
-  document gave the subject ([words](../../../../bizdev/product-document/template.md)),
-  and the searches the page answers are named there too.
+  document gave the subject
+  ([words](../../../../bizdev/product-document/template/02-behaviour.md#7-words)),
+  and the searches the page answers are named in its design file
+  ([target queries](../../../../bizdev/product-document/template/05-design.md#public-pages-target-queries)).
 
 ## What the composition root builds
 
