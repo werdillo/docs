@@ -31,21 +31,22 @@ and have no shared rules yet. What would settle it: one device project that
 defines tactile, LED and small-display rules and tests whether they belong in
 `design/languages/` or `hardware/foundations/`.
 
-## Automated contrast and visual regression guards
+## Runtime visual regression and accessibility checks
 
-Today the UI guard ([`web/guards/ui.md`](../software/principles/web/guards/ui.md))
-blocks raw values and framework palettes in code, and the site guard checks
-heads and image attributes, but nothing automatically fails CI on a contrast
-regression (`< 4.5:1`) or a layout shift across light and dark modes. What
-would settle it: an automated check over `tokens.json` (testing every
-foreground/background token pair) plus Playwright screenshot/axe rules in
-`software/principles/web/testing/`.
+[`check-docs.mjs`](../shared/scripts/check-docs.mjs) verifies WCAG 2.1 contrast
+ratios across every foreground/background pair in [`tokens.json`](./system/tokens.json)
+in both light and dark modes, and the UI guard
+([`web/guards/ui.md`](../software/principles/web/guards/ui.md)) blocks raw
+values and framework palettes in code. What is not automated yet is runtime
+browser verification — rendered layout shift (`CLS`), text-over-photo contrast,
+and live DOM accessibility across light and dark modes. What would settle it:
+Playwright screenshot and axe checks wired into
+[`software/principles/web/testing/`](../software/principles/web/testing/README.md).
 
-## `tokens.json` to CSS and Figma pipeline
+## Syncing `tokens.json` with Figma variables
 
-[`system/tokens.md`](./system/tokens.md) defines the three-tier token contract
-and [`system/tokens.json`](./system/tokens.json) holds the starter W3C Design
-Tokens data, but the exact generator from `tokens.json` to CSS custom
-properties, utility theme config and Figma variables is not chosen yet. What
-would settle it: one build script exercised on a real project that outputs CSS
-and Figma variables cleanly from `tokens.json`.
+[`tokens-to-css.mjs`](../shared/scripts/tokens-to-css.mjs) compiles
+[`tokens.json`](./system/tokens.json) into a ready-to-use `theme.css` (light,
+dark and `public` density), but syncing the same W3C file into Figma variable
+collections is not automated yet. What would settle it: one real product team
+running a round-trip sync between `tokens.json` and Figma variables.

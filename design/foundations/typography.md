@@ -109,6 +109,19 @@ Every font size comes from the OpenDesign scale (`--text-xs` … `--text-4xl`,
 - **Align numeric columns right** (`text-align: end`) in tables and summaries so
   decimal points and currency positions line up vertically down the column.
 
+## Text expansion and overflow (localisation)
+
+- **Design for `20–35%` text expansion** (orienting signal). Translated labels
+  in Russian, German or French routinely run a third longer than English
+  (*"Cancel order"* → *"Отменить заказ"*, *"In stock"* → *"В наличии"*). Never
+  fix the width of buttons, tabs, badges or navigation items to the exact width
+  of an English word.
+- **Declare overflow behaviour per slot.** Single-line list cells, breadcrumbs
+  and sidebar items set `min-width: 0`, truncate with an ellipsis
+  (`text-overflow: ellipsis`) and expose the full string in a tooltip or record
+  view; headings, form labels, hints and error messages wrap cleanly onto a
+  second line rather than clipping mid-word.
+
 ## Example: Small shop
 
 - **Shop site (product page):** `--font-display` at `32 px` (`600`,

@@ -60,15 +60,28 @@ In every package that has the same box, it goes at **the same path**
 
 ## A write
 
-read first → statements → one batch → guards inside → refuse or retry
-([atomic writes](./architecture/data.md#atomic-writes-are-one-transaction-racing-writes-are-versioned))
+named limits checked first → read first → statements → one batch → guards inside →
+refuse with a typed code or retry; invariants fail loudly, never silent `catch {}`
+([limits](./architecture/contracts.md#limits-are-named-with-units),
+[refusals](./architecture/contracts.md#say-no-with-a-value),
+[atomic writes](./architecture/data.md#atomic-writes-are-one-transaction-racing-writes-are-versioned))
 
 ## A read
 
-one read per box → join in memory → a view, never a row; a list is a summary,
-a detail is the full shape; grouped to ~9–10 top-level keys
-([a reader sees a view](./architecture/access.md#a-reader-sees-a-view-never-a-row);
-grouped by meaning, [wire shapes](./architecture/contracts.md#a-wire-shape-is-grouped-by-meaning))
+bounded page (named limit) → one read per box → join in memory → a view, never a
+row; grouped to ~9–10 top-level keys; secrets redacted and tokens checked in
+constant time
+([a reader sees a view](./architecture/access.md#a-reader-sees-a-view-never-a-row),
+[wire shapes](./architecture/contracts.md#a-wire-shape-is-grouped-by-meaning))
+
+## Functions, dependencies and speed
+
+push `if`s up to handlers/processes, pure helpers down (`~50–70 lines` signal) →
+platform APIs first, external libraries behind one door → sketch load before
+building, measure before optimising
+([inside a function](./structure/inside-a-box.md#inside-a-function),
+[dependencies](./stack/README.md#dependencies),
+[performance](./stack/performance.md#sketch-before-building))
 
 ## A screen
 
@@ -80,10 +93,13 @@ domain's menu is one navigation file ([navigation](../../../design/languages/int
 
 ## The tests
 
-layers · boundaries · cycles · commands · schema · cross-box keys · foreign
-joins · owned writes · table declarations · public surface · two halves ·
-views · same place · access · mounts · jobs · kit usage · site
-([enforcement](./architecture/enforcement.md#enforcement))
+deterministic (inject clock, RNG, adapters) · negative space (every refusal,
+limit edge, race) · layers · boundaries · cycles · commands · schema ·
+cross-box keys · foreign joins · owned writes · table declarations · public
+surface · two halves · views · same place · access · mounts · jobs · kit usage ·
+site
+([determinism](./testing/README.md#determinism-and-the-negative-space),
+[enforcement](./architecture/enforcement.md#enforcement))
 
 ## Not this
 

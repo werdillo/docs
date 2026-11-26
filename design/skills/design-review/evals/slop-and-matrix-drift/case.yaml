@@ -1,0 +1,19 @@
+schema_version: "1.1"
+name: slop-and-matrix-drift
+expected_outcome: |
+  Reviews `shop/05-design.md` and `OrderCard.tsx` against `shop/02-behaviour.md`,
+  `shop/03-matrix.md` and the 33 design rules, catching the planted defects:
+  - orphan KPI analytics dashboard with no box in `03-matrix.md`;
+  - business-word drift ("Archived" instead of "withdrawn") and showing
+    "Confirm payment" on an already `cancelled` order;
+  - raw hex colour (`#3b82f6`), Tailwind default palette class (`bg-blue-500`)
+    and `dark:bg-zinc-900` inside `OrderCard.tsx`;
+  - destructive confirmation dialog using `OK` / `Cancel` and raw error
+    `"Error 409: CONFLICT"`;
+  - missing `filtered-empty` state and missing `reconnecting / offline` live
+    queue state;
+  - AI slop on the public storefront (purple-to-cyan gradient hero, 3-column
+    generic icon-card wall, `lorem ipsum`, `32 px` mobile touch buttons);
+  - returns `Verdict: not ready`.
+context:
+  scaffold_script: place-files.sh

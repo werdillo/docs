@@ -22,6 +22,15 @@ why.
 A managed database bills by rows read and answers over the network. That makes
 round trips and rows read the two costs that count first.
 
+## Sketch before building
+
+Before writing a new hot path or service, spend five minutes estimating its
+load on paper: expected requests per second, payload bytes, rows added per
+year, read-to-write ratio, and the slowest resource (usually database round
+trips or third-party API calls). Numbers off by a factor of two still reveal
+whether a feature needs an index, a batch, a read model or a background job
+before the first line is written.
+
 ## What the architecture asks
 
 Isolated boxes make each round trip visible: a box reads only its own data, and
@@ -133,5 +142,8 @@ puts each read on one side is in the project's conventions — API.
   again when it changes.
 - The engine's own limits are tested past their edge. A test passes more values
   than one statement can bind, so the slicing is proven.
+- **A claim about speed is a number.** Measure a query plan, a p95 latency or a
+  client bundle size against a concrete budget before optimising — never trade
+  clarity for an unmeasured guess.
 - The client's bundle is measured when a dependency is added. A library that
   lands in the first load needs a reason.

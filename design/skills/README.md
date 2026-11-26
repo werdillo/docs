@@ -1,7 +1,9 @@
 # Skills
 
-*Not built yet.* Agent skills built from the folders of [`design/`](../README.md).
+Agent skills built from [`design/`](../README.md). How skills are structured,
+built and tested is in [`shared/skills.md`](../../shared/skills.md).
 
-Each skill follows the repository's standard layout: a hand-written `SKILL.md`
-stating how to work and what to return, `references/` copied from the source
-documents by the build script (never edited by hand), and `evals/` beside them.
+| Skill | What it does |
+|---|---|
+| [`design-spec/`](./design-spec/SKILL.md) | Translates a product document (`02-behaviour.md`, `03-matrix.md`, `04-launch.md`) into `05-design.md`, three-tier token overrides and screen specifications in the order `tokens → components → interfaces`. |
+| [`design-review/`](./design-review/SKILL.md) | Reviews `05-design.md`, screen specifications, `tokens.json` themes or built UI code against all 33 design rules, nine states, matrix fidelity, contrast floors and anti-AI-slop standards. |

@@ -45,8 +45,12 @@ part is what is not known yet.
 
 - **What it costs** — the question that decides whether there is a product. A
   problem that costs nothing is not paid to be solved.
-- **Evidence** — say where each claim comes from, and how many people. "Three
-  conversations" is honest; "users want" is not evidence.
+- **Evidence** — say where each claim comes from, and how many people. Past
+  actions beat future promises: hours already spent, money already paid and
+  real incidents from last month are evidence; *"ten people said they would use
+  it"* is a compliment, not evidence. Any external market or competitor figure
+  carries its primary source, or is explicitly marked *unverified* (never
+  copied uncritically from a vendor landing page).
 
 ### 3. Value and success
 
@@ -83,7 +87,8 @@ business words, never technology names:
 - [ ] Every outcome has a measure, a target and a date, plus a stop condition.
 - [ ] *Not this product* has at least three concrete lines.
 - [ ] Non-negotiable constraints (isolation, legal/privacy, fallback, devices) are named.
-- [ ] The riskiest belief behind the idea is in `log.md` Assumptions.
+- [ ] The riskiest belief behind the idea is in `log.md` Assumptions (`A1`…).
+- [ ] Zero open `Q*` in `log.md` with `Blocks` set to `Gate 1`.
 
 ## Stage 2 — Behaviour (`02-behaviour.md`)
 
@@ -131,6 +136,7 @@ filled in at stage 3, and a rule no box can keep says the matrix is wrong.
 - [ ] Every word two people used differently is in Words (7).
 - [ ] Every scenario answers its *What if* cases.
 - [ ] Every *Must not* is a numbered rule in Rules (9).
+- [ ] Zero open `Q*` in `log.md` with `Blocks` set to `Gate 2`.
 
 ## Stage 3 — Matrix (`03-matrix.md`)
 
@@ -237,6 +243,7 @@ what they find in the sections above, and record each fix in 12.5 and in
 - [ ] Every lifecycle state is reached and left or final, and every move has a scenario and role.
 - [ ] The checks of section 12 are filled in, and what they found is fixed.
 - [ ] No domain has more than about ten boxes.
+- [ ] Zero open `Q*` in `log.md` with `Blocks` set to `Gate 3`.
 
 ## Stage 4 — Launch (`04-launch.md`)
 
@@ -262,7 +269,7 @@ conditions that say the first version is ready.
 
 - [ ] Every deliverable in 13 carries only boxes and processes from section 10.
 - [ ] The first slice completes one core scenario end to end.
-- [ ] Open questions in `log.md` that block the first slice are answered.
+- [ ] Zero open `Q*` in `log.md` with `Blocks` set to `Gate 4` or the first slice (`E1`).
 
 ## Technical half — optional (`05`–`08`)
 

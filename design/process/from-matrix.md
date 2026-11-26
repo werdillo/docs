@@ -40,11 +40,13 @@ Taking Small shop's [launch deliverables](../../bizdev/product-document/example/
 [design spec](../../bizdev/product-document/example/05-design.md) and
 [matrix](../../bizdev/product-document/example/03-matrix.md):
 
-1. **Two deliverables, two design languages.** The *Shop site* is a public
-   storefront ([public language](../languages/public.md)); the *Admin* is a
-   dense daily tool ([internal language](../languages/internal.md)). Both share
-   the same OpenDesign token contract ([tokens](../system/tokens.md)) and the
-   same business words (`order`, `in stock`, `withdrawn`).
+1. **Two deliverables, two design languages, one shared token contract.** The
+   *Shop site* is a public storefront ([public language](../languages/public.md));
+   the *Admin* is a dense daily tool ([internal language](../languages/internal.md)).
+   Both pull the same Tier 1 and Tier 2 tokens plus status enums from the
+   `shared` deliverable ([sharing tokens](../system/tokens.md#sharing-tokens-across-deliverables-shared)),
+   switching only Tier 3 density (`data-density="public"` on the site) while
+   keeping the exact same business words (`order`, `in stock`, `withdrawn`).
 2. **Lifecycles drive the order record.** An order has states `placed → paid`
    and `placed → cancelled` (both final). So on the Admin's `shop/orders`
    record, *Confirm payment* and *Cancel order* appear only while the order is

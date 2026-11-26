@@ -71,14 +71,14 @@ crash from an assertion is reported. What would settle it: a rule for the
 shape of a metric and a log line, their bounds — a log is a queue too — and
 what is written when the program stops itself.
 
-## Shutdown, and change without restart
+## Changing limits or configuration without restart
 
-Everything is fixed before the work begins and sized from the limits. That
-leaves two things unsaid: how the program stops — whether it drains its
-connections and for how long — and how a limit or the configuration changes
-while it runs.
-What would settle it: a rule that says a restart is the only way to change a
-limit, or the one that replaces it, and a bound on a graceful stop.
+Graceful shutdown with a bounded drain is covered in
+[a service](./kinds/service.md#signals-and-shutdown). What stays open is
+changing a limit or configuration value while the process is running, when
+memory and pools are sized once at startup. What would settle it: a rule that
+says a restart is the only way to change a limit, or a bounded reload pattern
+for non-structural settings.
 
 ## The language is still moving
 

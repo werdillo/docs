@@ -1,0 +1,19 @@
+schema_version: "1.1"
+name: folder-drift-check
+expected_outcome: |
+  A review of a multi-file Option A product folder (`clinic/`) against Gate 3
+  (Matrix) plus its technical boundary (`06-architecture.md`) that finds the
+  planted errors:
+  - reads across the Option A folder files (`README.md`, `01-context.md` through
+    `04-launch.md`, `06-architecture.md`, `log.md`);
+  - flags technical jargon (`PostgreSQL`, `JWT`, `POST /api/visits`) inside the
+    business half (`02-behaviour.md`);
+  - flags `S2` in `02-behaviour.md` merging two roles (receptionist and patient)
+    into a single scenario;
+  - flags the architecture drift in `06-architecture.md`, where a `billing` box
+    is introduced outside `03-matrix.md` and writes directly to `appointments`'
+    data instead of going through a process;
+  - flags the open `Q1` in `log.md` with `Blocks: Gate 3`;
+  - concludes that Gate 3 does not pass.
+context:
+  scaffold_script: place-files.sh

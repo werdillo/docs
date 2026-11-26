@@ -52,7 +52,8 @@ Status says whether a test checks it, not how important it is:
     *(signal)* ([typography](./foundations/typography.md))
 14. **Contrast is measured, never guessed**: at least `4.5:1` for normal text,
     `3:1` for large text and UI controls/borders, and colour never carries
-    meaning alone. *(default)* ([colour](./foundations/colour.md))
+    meaning alone. *(guarded for `tokens.json`; default on runtime screens)*
+    ([colour](./foundations/colour.md))
 15. **Colour is built in OKLCH with achromatic chrome first** — greys carry
     hierarchy, semantic tokens carry state. *(default)*
     ([colour](./foundations/colour.md))

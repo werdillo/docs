@@ -68,7 +68,12 @@ never leak internal error codes or stack traces.
   with an exact timestamp tooltip in an activity feed; `15 Nov 2026` in an
   order table or invoice.
 - **Exact counts, never vague plurals.** *"0 items"*, *"1 order"*, *"14
-  products"* — handle singular and plural cleanly.
+  products"* — handle singular and plural cleanly (including Slavic multi-form
+  plurals when localised via `Intl.PluralRules`).
+- **Allow `20–35%` expansion for localised labels.** Short Russian or European
+  action labels run longer than English; keep button text to `1–3` words and
+  never rely on fixed-width English buttons or tabs
+  ([typography](../foundations/typography.md#text-expansion-and-overflow-localisation)).
 
 ## Not this
 

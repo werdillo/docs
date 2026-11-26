@@ -24,9 +24,16 @@ screen from those components ([`patterns/`](../patterns/README.md)).
 ## One theme is one file
 
 - **One theme source declares all three tiers** — [`tokens.json`](./tokens.json)
-  as machine-readable data (W3C Design Tokens format) and one generated or
-  authored theme stylesheet declaring light on the root and dark under the
-  scheme selector the app uses. Nothing else declares tokens.
+  as machine-readable data (W3C Design Tokens format) and one generated theme
+  stylesheet ([`tokens-to-css.mjs`](../../shared/scripts/tokens-to-css.mjs))
+  declaring light on `:root`, dark under `[data-theme="dark"]` and
+  `prefers-color-scheme: dark`, and touch density under
+  `[data-density="public"]`. Nothing else declares tokens.
+- **Automated token guard.** [`check-docs.mjs`](../../shared/scripts/check-docs.mjs)
+  verifies that [`tokens.json`](./tokens.json) parses cleanly, resolves every
+  alias and `var(--...)` reference, keeps identical light and dark colour slots,
+  and meets WCAG 2.1 contrast floors (`4.5:1` text, `3:1` meta and interactive
+  borders) in both modes.
 - **A theme starts from an OpenDesign design system** — its token file and its
   design document — and tunes the values to the product: an internal app reads
   smaller and denser than a public storefront. The values are the theme's; the
@@ -66,7 +73,8 @@ theme's **extensions**:
 
 - declared in the same file, right after the contract tokens, and listed in the
   theme's README;
-- named the contract's way — a role prefix, kebab-case: `--surface-hover`,
+- named the contract's way — a role prefix, kebab-case: `--border-strong`
+  (`≥ 3:1` contrast for interactive field borders), `--surface-hover`,
   `--surface-selected`, `--panel`, `--overlay`, `--accent-soft`,
   `--success-soft`, `--warn-soft`, `--danger-soft`;
 - **derived from contract tokens** where they can be
@@ -102,11 +110,27 @@ controls on a public storefront) in one place:
 | Component group | Key component tokens | Internal default | Public default |
 |---|---|---|---|
 | Button | `--button-height-sm / md / lg`, `--button-radius` | `28 / 32 / 36 px`, `--radius-md` | `36 / 44 / 48 px`, `--radius-md` |
-| Field / Input | `--input-height`, `--input-bg`, `--input-border`, `--input-radius` | `32 px`, `--surface`, `--border`, `--radius-sm` | `44 px`, `--surface`, `--border`, `--radius-sm` |
+| Field / Input | `--input-height`, `--input-bg`, `--input-border`, `--input-radius` | `32 px`, `--surface`, `--border-strong`, `--radius-sm` | `44 px`, `--surface`, `--border-strong`, `--radius-sm` |
 | List row / Tile | `--row-height`, `--row-px`, `--tile-radius` | `36 px`, `--space-3`, `--radius-lg` | `44 px`, `--space-4`, `--radius-lg` |
 | Dialog / Sheet | `--dialog-bg`, `--dialog-radius`, `--dialog-max-w`, `--dialog-confirm-w` | `--surface`, `--radius-lg`, `560 px`, `400 px` | `--surface`, `--radius-lg`, `560 px`, `400 px` |
 | Badge / Chip | `--badge-height`, `--badge-radius` | `20 px`, `--radius-pill` | `24 px`, `--radius-pill` |
 | Navigation chrome | `--sidebar-width`, `--header-height`, `--nav-item-height` | `240 px`, `48 px`, `32 px` | `—`, `64 px`, `44 px` |
+
+## Sharing tokens across deliverables (`shared`)
+
+When a product ships more than one interface — for example a public storefront
+(`site`) and a staff back office (`admin`) alongside `api` and the `shared`
+contracts deliverable ([`shared/words.md`](../../shared/words.md)) — the three
+tiers split cleanly across the boundary:
+
+- **Tier 1 (`contract`) and Tier 2 (`extensions`) live in `shared`** (alongside
+  the generated `theme.css`), so brand colours, neutral surfaces and status
+  meanings (`--success`, `--warn`, `--danger`) never drift between the public
+  site and the internal admin.
+- **Tier 3 (`components` vs `[data-density="public"]`) switches density per
+  deliverable**: `admin` runs the dense `internal` defaults (`32 px` controls,
+  `36 px` rows), while `site` sets `data-density="public"` (`44 px` touch
+  controls and rows) on its root element without forking kit components.
 
 ## How code reaches a token
 

@@ -8,7 +8,8 @@ with one `E1-*.md` file per epoch).*
 
 ## The working cycle
 
-Every epoch follows a **freeze → fan-out → join** parallel shape:
+Every epoch follows a **freeze → fan-out → join** parallel shape
+([multi-agent workflow](../../../shared/agents.md)):
 
 1. **Wave A — Freeze seams (`serial A`):** update `shared` (shared contracts,
    refusal codes, event payloads), box doors, kit tokens and schema first so

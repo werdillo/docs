@@ -8,3 +8,6 @@ Two independent axes:
   to learning it, ending, for the main languages, in how the principles are
   written in it.
 - **[`skills/`](./skills/README.md)** — agent skills built from the two.
+
+How multiple agents coordinate parallel work across boxes and epochs is in
+[`shared/agents.md`](../shared/agents.md).

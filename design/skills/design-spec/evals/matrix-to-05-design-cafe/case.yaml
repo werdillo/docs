@@ -1,0 +1,16 @@
+schema_version: "1.1"
+name: matrix-to-05-design-cafe
+expected_outcome: |
+  Creates `cafe/05-design.md` in Russian from `cafe/02-behaviour.md`,
+  `cafe/03-matrix.md` and `cafe/04-launch.md`:
+  - assigns `public` to `guest-menu` (`44 px` touch density via `data-density="public"`)
+    and `internal` to `barista-panel` (Linear x Apple HIG, equal light and dark),
+    sharing Tier 1 and Tier 2 tokens in `shared`;
+  - maps every user-facing box and process to canonical screen shapes without
+    inventing orphan screens;
+  - covers the nine states, live/reconnecting/resynced behaviour for the barista
+    queue, and pending return verification for external payment redirect;
+  - uses the exact business words from section 7 (`на стопе`, order statuses)
+    with verb+object buttons and no raw hex/Tailwind palette classes.
+context:
+  scaffold_script: place-files.sh

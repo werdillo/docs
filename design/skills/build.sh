@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Copies each design skill's references from the documents they are built from.
+# The documents are the source of truth: edit them, then run this script.
+set -euo pipefail
+here="$(cd "$(dirname "$0")" && pwd)"
+repo="$(cd "$here/../.." && pwd)"
+
+refs="$here/design-spec/references"
+rm -rf "$refs" && mkdir -p "$refs"
+cp "$repo/design/rules.md"                              "$refs/rules.md"
+cp "$repo/design/cheatsheet.md"                         "$refs/cheatsheet.md"
+cp "$repo/design/words.md"                              "$refs/words.md"
+cp -R "$repo/design/process"                            "$refs/process"
+cp -R "$repo/design/foundations"                        "$refs/foundations"
+cp -R "$repo/design/languages"                          "$refs/languages"
+cp -R "$repo/design/system"                             "$refs/system"
+cp -R "$repo/design/patterns"                           "$refs/patterns"
+cp -R "$repo/design/references"                         "$refs/examples"
+cp "$repo/shared/mapping.md"                            "$refs/mapping.md"
+cp "$repo/bizdev/product-document/template/05-design.md" "$refs/05-design-template.md"
+echo "built: $refs"
+
+refs="$here/design-review/references"
+rm -rf "$refs" && mkdir -p "$refs"
+cp "$repo/design/rules.md"                              "$refs/rules.md"
+cp "$repo/design/cheatsheet.md"                         "$refs/cheatsheet.md"
+cp "$repo/design/words.md"                              "$refs/words.md"
+cp -R "$repo/design/process"                            "$refs/process"
+cp -R "$repo/design/foundations"                        "$refs/foundations"
+cp -R "$repo/design/languages"                          "$refs/languages"
+cp -R "$repo/design/system"                             "$refs/system"
+cp -R "$repo/design/patterns"                           "$refs/patterns"
+cp -R "$repo/design/references"                         "$refs/examples"
+cp "$repo/shared/mapping.md"                            "$refs/mapping.md"
+echo "built: $refs"

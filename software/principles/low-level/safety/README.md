@@ -36,6 +36,7 @@ Most of this folder is two questions asked of every piece of code.
 | [`memory.md`](./memory.md) | Allocation at startup, the locked allocator, one owner and handles, pointers, scope. |
 | [`assertions.md`](./assertions.md) | What an assertion is for, where they go, pairs, both spaces, compile time. |
 | [`errors.md`](./errors.md) | The two kinds of failure, handling every error, parsing input at the boundary. |
+| [`boundaries.md`](./boundaries.md) | Wire and disk endianness/versioning, isolating C/C++ FFI behind one door, and zeroing/comparing secrets safely. |
 
 ## What these rules buy
 

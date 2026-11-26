@@ -39,7 +39,7 @@ balanced across light and dark themes so every surface stays legible and calm.
 
 Contrast is verified in both light and dark modes on every foreground/background
 token pair — including `--muted`, `--meta`, button text (`--accent-on`), input
-borders (`--border`) and focus rings (`--focus-ring`)
+borders (`--border-strong`) and focus rings (`--focus-ring`)
 ([contrast is a kit token](../../software/principles/web/ui/accessibility.md#contrast-is-a-kit-token)).
 
 | Target | WCAG 2.1 minimum | APCA minimum | Kind |

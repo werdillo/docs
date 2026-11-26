@@ -1,9 +1,8 @@
 # Docs
 
 Principles and guides, written to be read by people and turned into agent
-skills. Each section is a source of truth and keeps its own `skills/` folder:
-hand-written `SKILL.md` instructions with `references/` copied from the
-section's documents and `evals/` beside them.
+skills. Each section is a source of truth and keeps its own `skills/` folder
+following the repository standard in [`shared/skills.md`](./shared/skills.md).
 
 | Section | What it holds |
 |---|---|

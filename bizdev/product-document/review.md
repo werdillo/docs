@@ -102,5 +102,8 @@ Check, Found, Proposed, Kind (gap, contradiction, ambiguity, style). End with
 whether the gate passes, and which items still fail.
 ```
 
-The same instructions, as a skill an agent loads by itself, are
-[`product-document-review`](../skills/product-document-review/SKILL.md).
+The same instructions, as skills an agent loads by itself, are
+[`product-document-intake`](../skills/product-document-intake/SKILL.md) (Mode 1:
+raw notes → structured folder) and
+[`product-document-review`](../skills/product-document-review/SKILL.md) (Mode 2:
+review a draft).

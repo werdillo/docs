@@ -157,6 +157,46 @@ Flash wears out with writes, and a write can be cut by power loss half-way.
   record that fails its checksum is an operating error — the outside, here
   the power, broke it — and the device starts from defaults and counts it.
 
+## The hardware contract
+
+Firmware and the physical device are designed together — a ground loop or an
+unseated supply rail cannot be fixed in software
+([where quality comes from](../../../../hardware/foundations/quality.md),
+[KiCad](../../../../hardware/kicad/README.md),
+[FreeCAD](../../../../hardware/freecad/README.md)). Four facts cross the
+boundary between the schematic and `board_chip`, and every one is recorded in
+one table inside `board_chip`:
+
+- **Pinout, buses and clock tree** — every pin name matches the schematic net
+  name, with its direction, pull resistor, alternate function and bus speed.
+- **Board revision ID** — read from hardware strap pins or an OTP/EEPROM field
+  at boot; an unknown revision halts safely (outputs muted) rather than driving
+  the wrong pinout.
+- **Factory calibration data** — sensor offsets, ADC references and gain trims
+  live in a dedicated, checksummed flash region separate from user settings,
+  read and verified at startup with documented defaults if absent.
+- **Hardware fault and thermal pins** — over-current, thermal-shutdown and
+  brown-out pins enter the same mute-first safe-state path as the panic
+  handler ([power and clicks](#power-and-clicks)).
+
+## When a small RTOS is used
+
+Most small devices run a single super-loop; add an RTOS only when independent
+real-time deadlines genuinely cannot share one loop (for example a wireless
+stack beside a hard control loop). Every safety rule still holds:
+
+- **All tasks, stacks and queues are static** — created at startup before the
+  scheduler starts, sized from `limits`; zero dynamic task creation or heap
+  allocation afterwards.
+- **Task priorities live in one table** (just like interrupt priorities), with
+  the hard-deadline task highest and the reason beside each row.
+- **Tasks communicate only through bounded queues or SPSC rings** — no ad-hoc
+  shared mutable structs, and the real-time task never blocks on a mutex held
+  by a lower-priority task.
+- **The watchdog checks every critical task** — each critical task sets a
+  heartbeat bit within its deadline, and one monitor checks all bits before
+  feeding the watchdog so a single wedged task still resets the chip.
+
 ## What a crash does
 
 A broken assertion calls the panic handler, which the root file declares. On

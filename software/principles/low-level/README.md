@@ -3,11 +3,10 @@
 How to write a low-level program so that **what it can do is bounded and
 visible** — its memory, its loops, its failures and its dependencies — and so
 that where a thing is still says what it is. Written for any program in Zig — a service, firmware for a microcontroller, a
-library, a tool — to be copied into a new project on day one and kept for its
-life. The ideas — bounded memory, fixed loops, explicit errors and simulation
-— apply to any systems language; the rules, examples and guards here are
-expressed in Zig. Learning Zig itself lives in
-[`languages/zig/`](../../languages/zig/README.md).
+library, a tool — as a central reference for people and for agent skills. The
+ideas — bounded memory, fixed loops, explicit errors and simulation — apply to
+any systems language; the rules, examples and guards here are expressed in Zig.
+Learning Zig itself lives in [`languages/zig/`](../../languages/zig/README.md).
 
 Three sources, one set of rules:
 [NASA's Power of Ten](https://spinroot.com/gerard/pdf/P10.pdf) for what a
@@ -122,7 +121,8 @@ watch over it.
 |---|---|
 | [`words.md`](./words.md) | **The words** — one word per thing: box, door, limit, handle, main loop, operating error. |
 | [`rules.md`](./rules.md) | **The principles** — the one-line list 1–44, grouped by what they are about, each expanded in its folder. |
-| [`cheatsheet.md`](./cheatsheet.md) | **One page** — where code goes, a function, a loop, memory, a failure, the checks. |
+| [`cheatsheet.md`](./cheatsheet.md) | **One page** — where code goes, a function, a loop, memory, a failure, FFI, tests, the checks. |
+| [`starting.md`](./starting.md) | **Day one** — the minimal folder tree, `build.zig`, `limits/root.zig`, conventions checklist, and parallel work across boxes. |
 | [`kinds/`](./kinds/README.md) | **One rule, four realisations** — what the rules become in a service, in firmware, in a library and in a tool. |
 | [`sources/`](./sources/README.md) | **Where each rule comes from** — the Power of Ten and TigerStyle, rule by rule, where these documents depart, and the text of TigerStyle itself. |
 | [`open-questions.md`](./open-questions.md) | **Known gaps** that are not rules yet; each says what would settle it. |
@@ -142,12 +142,13 @@ watch over it.
   [`structure/`](./structure/README.md),
   [`performance/`](./performance/README.md),
   [`testing/`](./testing/README.md), [`toolchain/`](./toolchain/README.md).
-- **Starting a project.** Put this folder in it before writing code. Write the
-  limits file and the sketch first: how many of each thing, how large, how
-  fast, and how much memory that adds up to — questions about the program,
-  answered before a line is written
+- **Starting a project.** Follow [`starting.md`](./starting.md): pin the
+  compiler version, write the sketch and the limits file first — how many of
+  each thing, how large, how fast, and how much memory that adds up to — before
+  a line of feature code exists
   ([sketch before building](./performance/sketch.md#sketch-before-building)).
-  Then the composition root, then the first box.
+  Then wire `build.zig` (`layer_map` and `zig build check`), the composition
+  root, and the first box.
 - **A small project** keeps the limits file, the assertions, the error
   handling, the 70 lines and the one command. The layer map waits for the
   second box.

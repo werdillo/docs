@@ -74,6 +74,12 @@ this page is fixed.
   rule does not cover, and what to do there.
 - **Scope is stated.** When a set is overkill is said in it, not left to the
   reader's guess.
+- **No ephemeral runtime data in permanent docs.** PIDs, temporary paths,
+  session hashes and one-off run logs never enter rules or templates.
+- **Check changes before calling them done.** Run
+  `./shared/scripts/build-skills.sh && node ./shared/scripts/check-docs.mjs`
+  after editing documents, and verify skill changes against `evals/`
+  ([skills](./skills.md)).
 
 ## Examples
 

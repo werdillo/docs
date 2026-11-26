@@ -57,6 +57,19 @@ uses.
 9. **Operate by default.** The platform holds the secrets and the managed data,
    and every public write has a limit.
 
+## Dependencies
+
+A web stack relies on a small core of framework, database and UI libraries, so
+zero dependencies is not the goal — **deliberate dependencies** are:
+
+- **Platform and Web APIs first.** Use built-in `fetch`, `URL`, `Intl`,
+  `crypto` and `structuredClone` before reaching for a package; never add a
+  dependency for ten lines of straightforward code.
+- **Every external library sits behind one adapter or door**, so its types and
+  quirks do not spread across boxes and it can be replaced in one place.
+- **Versions are pinned in the committed lockfile**, and any package that lands
+  in a client bundle is weighed against the client budget.
+
 ## A library built for an older framework
 
 A library whose framework adapter targets an older major version may not

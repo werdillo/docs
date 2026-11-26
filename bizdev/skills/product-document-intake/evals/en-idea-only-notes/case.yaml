@@ -1,0 +1,16 @@
+schema_version: "1.1"
+name: en-idea-only-notes
+expected_outcome: |
+  An early-stage English product folder built from short idea-only notes for a
+  neighbourhood tool-lending app:
+  - creates README.md, 01-context.md and log.md (and optionally a partial
+    02-behaviour.md if limited to facts from the notes), without fabricating
+    05-08 technical files or an invented matrix;
+  - flags "five friends said they love the idea" as a compliment rather than
+    evidence of past behaviour, and marks the unsourced "40% savings" competitor
+    claim as unverified;
+  - never invents numeric targets, budget/costs or a stop condition;
+  - logs open questions (Q1, Q2, ...) with Blocks set to Gate 1 in log.md;
+  - leaves Status as Draft (Gate 1 not passed).
+context:
+  scaffold_script: place-files.sh

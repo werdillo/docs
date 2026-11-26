@@ -73,6 +73,20 @@ state or behaviour is reused, grows into several concerns, or must outlive the
 component. And they live together: a box's code, its tests and its README
 sit inside the box, not in parallel trees.
 
+## Inside a function
+
+Micro-structure does not stop at files; how each function is shaped determines
+how easily it is read and tested at the unit tier:
+
+- **Push `if`s up and pure computation down.** Handlers and processes own
+  branching, access checks and I/O; helpers in `services` stay pure and never
+  reach for the database or clock on the side.
+- **A function fits on a screen** — about `50–70 lines` as an orienting signal.
+  Use early returns and positive conditions to keep nesting flat.
+- **Names carry the model and their units; comments say why.** Avoid cryptic
+  abbreviations (`timeoutMsMax`, not `tmo`); a comment explains the invariant
+  or trade-off the code cannot express, never what the next line does.
+
 ## The barrel
 
 **A slice that is a folder is reached through its entry file** that re-exports

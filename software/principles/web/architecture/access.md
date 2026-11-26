@@ -12,6 +12,11 @@
   value goes only to a caller who may write the record that holds it. A list
   never carries it — the value belongs to the detail a writer opens; history,
   export and backup require write because restore needs the value.
+- **Secrets are compared in constant time and redacted from logs.** Webhook
+  signatures, API keys and opaque tokens are checked with a constant-time
+  comparison (`timingSafeEqual`), never `===`; loggers and error serializers
+  redact tokens and credentials by default so a secret never reaches a log line
+  or response body.
 - **Every public write is limited.** An unthrottled public write is a way to
   take a service down from a laptop.
 - **A gate belongs to the router that is mounted.** A router mounted outside its

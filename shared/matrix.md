@@ -66,6 +66,23 @@ A box sits where its users are, and moves when they change, keeping its name:
 - **Into a group, when it grows** — a box past the sizes becomes a matrix of
   boxes under the same name.
 
+## Why a matrix parallelises
+
+Because every box is opaque, owns its own folder and state, and meets others
+only through one-way doors, a matrix turns directly into conflict-free parallel
+work — for teams and for parallel agents alike:
+
+1. **Freeze the seams first (`serial A`)** — commit `shared` contracts, limits,
+   doors and schema changes before fanning out.
+2. **Fan out across disjoint boxes or deliverables (`parallel B`)** — each
+   worker owns strictly non-overlapping folders and never edits `shared` or the
+   composition root.
+3. **Join and verify (`serial C`)** — wire the boxes in the composition root
+   and run the full regression suite across everything built so far.
+
+How agents coordinate these waves — solo, with one level of workers, or with
+zone leads — is in [multi-agent workflow](./agents.md).
+
 ## The same box, the same name
 
 A box keeps its name in every section and every part: the box `booking/slots`

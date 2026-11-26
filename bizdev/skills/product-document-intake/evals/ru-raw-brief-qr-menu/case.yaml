@@ -1,0 +1,19 @@
+schema_version: "1.1"
+name: ru-raw-brief-qr-menu
+expected_outcome: |
+  A structured Russian product document folder built from a messy raw brief for a
+  QR-menu and ordering service:
+  - writes in Russian and uses the Option A folder layout (README.md, 01-context.md
+    through 04-launch.md, log.md, plus 06-architecture.md or 05-08 where the brief
+    supplies technical material);
+  - keeps PostgreSQL, pgvector and REST jargon out of the business half (01-04)
+    and moves it to the technical half (06-architecture.md);
+  - never invents missing numeric targets, prices or evidence, and logs open
+    questions with stable IDs (Q1, Q2, ...) and Blocks columns in log.md;
+  - splits the combined staff-and-guest status sentence into separate single-role
+    scenarios (1 role = 1 scenario);
+  - includes the shared contracts deliverable (shared) in 04-launch.md / 06-architecture.md;
+  - runs section 12 paper checks and flags the unspecified cancelled order state
+    and missing cancel actor.
+context:
+  scaffold_script: place-files.sh

@@ -16,13 +16,20 @@ Grouped by what they are about. Each is expanded in the folder or file named.
    to it has a timeout and a retry count. *(default)*
 2. **The composition root is the only place that knows everything** *(guarded)*;
    every box declares itself, and the root lists the declarations.
-3. **A contract lives once**, at the boundary, and a consumer parses it;
-   what comes in has a maximum size, checked before it is parsed.
+3. **A contract lives once**, at the boundary, and a consumer parses it into
+   narrow domain types; every upper bound (body size, upload, page, batch,
+   timeout, retry) is a named constant with its unit in one `limits.ts` and
+   checked before work begins ([contracts](./architecture/contracts.md#limits-are-named-with-units)).
    *(default)*
-4. **Say no with a value**, not an exception — a refusal with a stable code; the
-   boundary maps the code to a status. *(default)*
+4. **Say no with a value**, not an exception — a refusal with a stable code
+   mapped to a status at the edge; programmer invariants fail loudly and are
+   never swallowed in an empty `catch {}`, hidden by `as any` or dropped as an
+   unhandled Promise ([contracts](./architecture/contracts.md#say-no-with-a-value)).
+   *(default)*
 5. **Fail closed** *(guarded)* — the owner decides access, every read is scoped,
-   absence and denial look the same, and a secret is writer-only.
+   absence and denial look the same, a secret is writer-only, tokens and
+   signatures are compared in constant time, and secrets are redacted from logs
+   ([access](./architecture/access.md#fail-closed)).
 6. **A reader sees a view, never a row** *(guarded; the key count is a signal)*
    — a public read is field by field; a list is a summary and a detail is the
    full shape; and a view is **grouped**: aim for about 9–10 top-level keys —
@@ -84,9 +91,11 @@ Grouped by what they are about. Each is expanded in the folder or file named.
 21. **Each slice is reached through its barrel**, or is one file;
     files inside a slice link to each other directly by relative path, and the
     box's own entry file is its door. *(default)*
-22. **≤ ~4–6 file-subjects stays flat; a file is ~50–150 lines; a slice past
-    ~7–9 files may group them into subject subfolders** — the
-    [sizes](./structure/sizes.md#flat-when-small-and-the-sizes). *(signal)*
+22. **≤ ~4–6 file-subjects stays flat; a file is ~50–150 lines; a function is
+    ~50–70 lines; push `if`s up and pure computation down; a slice past ~7–9
+    files may group into subject subfolders** —
+    [sizes](./structure/sizes.md#flat-when-small-and-the-sizes) and
+    [inside a function](./structure/inside-a-box.md#inside-a-function). *(signal)*
 
 ## Screens — [`ui/`](./ui/README.md)
 
@@ -147,7 +156,9 @@ These are the qualities:
 39. **Ship nothing to a client it does not need** *(guarded)* — plain TypeScript
     stays separate from framework UI, and a package exports only its promised
     names ([ui guards](./guards/ui.md)).
-40. **One copy of anything with identity**; versions pinned in one place.
+40. **One copy of anything with identity; deliberate dependencies** — prefer
+    built-in platform/Web APIs, isolate external libraries behind one door, and
+    pin versions in one committed lockfile ([stack](./stack/README.md#dependencies)).
     *(default)*
 41. **One command checks everything**, reproducibly, and CI runs the same steps.
     *(default)*
@@ -162,9 +173,10 @@ desktop shell (Electrobun) for the desktop ([`stack/`](./stack/README.md)).
 
 ## The road
 
-42. **Guardrails where leaving the road is expensive** — a test for those few
-    places; everything else is a signpost, and a signpost that misleads is
-    changed. *(default)*
+42. **Guardrails where leaving the road is expensive, and no known showstopper
+    is left for later** — a test guards the expensive edges; an unbounded query,
+    missing access check, un-idempotent write or unverified webhook is fixed
+    when found, never deferred. *(default)*
 43. **Docs describe the code as it is** — no dates, no phases, no history. A
     gap in these principles is listed in [not decided yet](./open-questions.md);
     what a project has not built is one line in its roadmap. *(default)*
@@ -176,9 +188,10 @@ desktop shell (Electrobun) for the desktop ([`stack/`](./stack/README.md)).
 45. **Tests live where the behaviour lives** — a box's tests beside its slices,
     a process's on its line, the composition root's over the assembly, a
     contract's where its consumer reads it. *(default)*
-46. **Each tier guards one edge, and no tier re-tests one below it** — a box's
-    decisions, a write against a real database, a screen's contract, the real
-    backend at the boundary. *(default)*
+46. **Each tier guards one edge, stays deterministic, and tests the negative
+    space** — inject clock, randomness and adapters; cover every refusal code,
+    limit edge and concurrent race without re-testing tiers below
+    ([testing](./testing/README.md#determinism-and-the-negative-space)). *(default)*
 47. **Test helpers live once**, at the level of their subjects; a test's setup
     uses them, not another box's handlers. *(default)*
 48. **A guard fails loudly, and its exceptions only shrink** — a known list

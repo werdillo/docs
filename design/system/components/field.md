@@ -42,7 +42,7 @@ inline validation errors ([form](../../patterns/form.md)).
 | Tier | Tokens |
 |---|---|
 | Contract | `--surface`, `--fg`, `--fg-2`, `--muted`, `--meta`, `--border`, `--accent`, `--danger`, `--focus-ring`, `--radius-sm`, `--space-1`, `--space-3`, `--space-4`, `--motion-fast` |
-| Extensions | `--panel`, `--surface-hover`, `--surface-selected` |
+| Extensions | `--border-strong`, `--panel`, `--surface-hover`, `--surface-selected` |
 | Component | `--input-height`, `--input-px`, `--input-bg`, `--input-border`, `--input-radius` |
 
 ## Keyboard and accessibility

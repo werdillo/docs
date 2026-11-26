@@ -49,6 +49,20 @@ higher tier adds only what it alone can see. What each covers, and what a stub
 cannot say, is in [the tiers](./tiers.md); the tool each tier runs on, and what
 the light browser is trusted for, is in [the tools](./tools.md).
 
+## Determinism and the negative space
+
+A flaky test teaches the team to ignore failures, and a happy-path-only suite
+misses the bugs that reach production:
+
+- **A test is deterministic.** Business logic takes its clock (`now()`),
+  ID/randomness generator and external adapters as parameters — never calling
+  `new Date()` or `Math.random()` directly inside pure decisions, and never
+  relying on wall-clock `sleep` in tests.
+- **Test the negative space on purpose.** For every box and process, cover
+  invalid inputs, every declared refusal code, every limit at its edge
+  (`N - 1`, `N`, `N + 1`), concurrent races on the same record, and failing
+  external adapters.
+
 ## A test is not in the runtime graph
 
 Tests read the code they test, and may read another box's files to set up data;

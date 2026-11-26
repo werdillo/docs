@@ -24,6 +24,21 @@ drift surfaces as a visible parse error instead of a silent `undefined`.
   carries a record's kind and id, never a client's address, so moving a screen
   breaks no other package.
 
+## Limits are named, with units
+
+Every upper bound — `pageSizeMax`, `uploadBytesMax`, `batchSizeMax`,
+`requestTimeoutMs`, `retryCountMax`, `cacheTtlSeconds` — lives as a named
+constant in one `limits.ts` per package or domain, never as a bare literal
+scattered through handlers and queries.
+
+- **Put the unit last.** `requestTimeoutMs` and `cacheTtlSeconds` cannot be
+  confused; `timeout` and `ttl` are confused regularly.
+- **Every list, batch, upload and loop over external input has a ceiling.**
+  Unbounded queries and unbounded retries work in development and take the
+  service down the day real data arrives.
+- **Shared ceilings live in the contracts package**, so the client validates
+  the same limit the server enforces.
+
 ## A break is a removal, a rename or a changed type
 
 - **A break** is a field removed, renamed, or whose type or meaning changes. An
@@ -53,11 +68,20 @@ is in the project's conventions — contracts.
 
 ## Say no with a value
 
-A rule that can refuse answers with a **value** the type system sees — a success
-or a refusal — not an exception. Exceptions are for failures nobody can act on.
+Two kinds of failure exist, and they are never mixed:
 
-- **Why:** a refusal is a normal outcome; making it a value means a caller
-  cannot forget to handle it.
+- **Operating failures (refusals)** — what the outside or a business rule can
+  cause: bad input, missing permission, sold-out stock, a timed-out adapter.
+  These answer with a **value** the type system sees — a success or a refusal
+  — so no caller can forget to handle them.
+- **Programmer errors (invariants)** — impossible states, violated internal
+  preconditions, broken wiring. These fail loudly via an assertion or thrown
+  error with context, never silently swallowed in an empty `catch {}`, masked
+  by an unchecked `as any`, or dropped as an unhandled Promise.
+- **Parse once at the boundary into narrow types.** Once input crosses the
+  schema boundary, hold it in a domain type (`Money`, `VenueId`,
+  `NonEmptyString`) so inner services trust the type instead of re-checking raw
+  strings on every call.
 
 ### The shape of a refusal
 

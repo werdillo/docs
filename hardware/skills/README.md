@@ -1,7 +1,8 @@
 # Skills
 
-*Not built yet.* Agent skills built from [`hardware/`](../README.md).
+*Not built yet.* Agent skills built from [`hardware/`](../README.md), following
+[`shared/skills.md`](../../shared/skills.md) — focused on read-only hardware
+review: checking KiCad netlists, BOMs, `pins/` contracts, `shared/parts/`
+standards, revision alignment and Zig `board_chip` tables before fabrication
+([automated or LLM review](../foundations/structure.md#text-first-formats-and-automated-or-llm-review)).
 
-Each skill follows the repository's standard layout: a hand-written `SKILL.md`
-stating how to work and what to return, `references/` copied from the source
-documents by the build script (never edited by hand), and `evals/` beside them.

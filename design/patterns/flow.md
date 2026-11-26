@@ -106,6 +106,14 @@ data or executing twice.
   an *Afterwards* step fails (for example, sending the confirmation email — S3
   *What if*), still land on the completion screen with the reference and full
   instructions visible on screen while the server retries the notification.
+- **External redirect and return (payment gateway, OAuth).** When a flow hands
+  the browser to an external provider and returns via a callback URL, the return
+  screen never assumes success from query parameters alone. It lands in an
+  explicit `pending` verification state (*"Confirming payment…"*), polls or
+  listens over live updates until the server confirms the real lifecycle state
+  (`paid` vs `failed` / `cancelled`), and remains idempotent across browser
+  `Reload` and `Back` so refreshing the return URL never double-charges or
+  re-starts the commit.
 
 ## Required states
 

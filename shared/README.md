@@ -15,6 +15,8 @@ and the code keeps them as folders, under the same names.
 | [`matrix.md`](./matrix.md) | The idea: boxes, a matrix, the levels around it, and how boxes interact. |
 | [`mapping.md`](./mapping.md) | What each word is in each section — product, design, web, low-level. |
 | [`writing.md`](./writing.md) | How the documents are written — sentences, words, numbers, rules, examples, pages, links — so a new one reads like the others. |
+| [`skills.md`](./skills.md) | How agent skills are structured, built from source documents and verified with `evals/`. |
+| [`agents.md`](./agents.md) | Tool- and model-agnostic multi-agent workflow: three operating modes (solo, one-level, two-level), feature waves, audit sweeps, briefs, parallelism limits and verification. |
 | [`scripts/`](./scripts/README.md) | Repository-wide scripts that rebuild skill `references/` and check links, anchors, READMEs and writing style. |
 
 **This is the source.** Business development, software and design all reason
