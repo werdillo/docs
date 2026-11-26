@@ -1,8 +1,9 @@
 # Small shop
 
-*An example of [the template](./template.md), filled in. It is the shop that
-[the web example](../../software/principles/web/example/README.md) builds: the
-boxes here are the folders there. The names and numbers are made up.*
+*An example of [the template](./template.md), filled in for the first version of
+Small shop. [The web example](../../software/principles/web/example/README.md)
+builds this first version and then evolves it further in `growing.md`. The names
+and numbers are made up.*
 
 *The first draft of this document had four scenarios. The checks of stage 3
 found four more and five rules; what they found, and where it was fixed, is in
@@ -134,6 +135,13 @@ through the shop.
 - **Steps:** 1. The owner finds the order. 2. Marks it paid.
 - **Ends with:** a paid order, ready to send.
 - **Must not:** mark a cancelled order paid.
+- **What if:**
+
+  | Case | Then |
+  |---|---|
+  | it is done twice | The second is a no-op: the order is already paid. |
+  | the order was already cancelled | Refused; the owner handles the refund outside the shop. |
+  | the owner changes their mind | Not reversible in the first version; refunds are handled outside the shop. |
 
 #### S5. Cancel an order
 
@@ -142,13 +150,29 @@ through the shop.
 - **Steps:** 1. The order is cancelled. 2. Its stock is returned.
 - **Ends with:** a cancelled order, and the stock as it was before it.
 - **Must not:** cancel a paid order; cancel without returning the stock.
+- **What if:**
+
+  | Case | Then |
+  |---|---|
+  | it is done twice | The second fails: stock is returned only once (R5). |
+  | it stops halfway | All or nothing: neither the cancellation nor the stock return stands. |
+  | the email fails | The cancellation stands; the email is sent again later. |
+  | the owner cancels by mistake | The shopper places a new order; stock is already back. |
 
 #### S6. Add or change a product
 
 - **Who:** Owner
 - **Starts when:** a new piece is ready to sell, or a price changes.
 - **Steps:** 1. The owner enters or changes the name, description and price.
-- **Ends with:** the product on sale — out of stock until restocked.
+- **Ends with:** the product on sale — treated as out of stock until restocked.
+- **Must not:** change the price of an already placed order (R2).
+- **What if:**
+
+  | Case | Then |
+  |---|---|
+  | submitted twice | Editing overwrites the current fields; adding the same piece twice creates a second product the owner withdraws (S8). |
+  | the price changes while a cart is open | The cart reads the new price; placed orders keep their recorded price (R2). |
+  | the owner changes their mind | Edit the product again, or withdraw it (S8). |
 
 #### S7. Restock a product
 
@@ -156,6 +180,13 @@ through the shop.
 - **Starts when:** a batch comes out of the kiln.
 - **Steps:** 1. The owner finds the product. 2. Adds the number made.
 - **Ends with:** the product can be bought again.
+- **Must not:** set stock below zero (R1); restock a withdrawn product.
+- **What if:**
+
+  | Case | Then |
+  |---|---|
+  | a negative or wrong number is entered | Refused below zero (R1); an overshoot is corrected by an adjustment that keeps stock non-negative. |
+  | a shopper places an order at the same time | Both updates apply cleanly to the stock level; neither is lost. |
 
 #### S8. Withdraw a product
 
@@ -163,6 +194,14 @@ through the shop.
 - **Starts when:** a piece will not be made again.
 - **Steps:** 1. The owner withdraws it.
 - **Ends with:** it is not sold, and past orders still show it.
+- **Must not:** delete the product or break past orders; allow it in a new cart or order (R4).
+- **What if:**
+
+  | Case | Then |
+  |---|---|
+  | it is done twice | The second is a no-op: the product is already withdrawn. |
+  | it is in an open cart | Placing the order fails for that line (R4). |
+  | the owner changes their mind | Not reopened in the first version; add a new product (S6). |
 
 ### 8. Rules
 
@@ -205,7 +244,7 @@ box uses it; none owns it.
 | Capability | What it is for | Used by |
 |---|---|---|
 | `accounts` | Who the owner is, and that only they manage the shop. | Owner's scenarios |
-| `notifications` | Sending a message to a person. | *Afterwards* of `place-order` |
+| `notifications` | Sending a message to a person. | *Afterwards* of `place-order` and `cancel-order` |
 
 #### 9.4 Processes
 
@@ -275,7 +314,7 @@ Every box carries a scenario.
 | Thing | Created by | Changed by | Ends by |
 |---|---|---|---|
 | Product | S6 | S6 | S8 |
-| Stock level | S6 — at zero | S7, S3, S5 | with its product |
+| Stock level | Implicitly zero when a product has no record yet; first written by S7 | S7, S3, S5 | with its product |
 | Cart | S2 | S2 | S3, or abandoned |
 | Order | S3 | S4, S5 | paid or cancelled |
 
@@ -326,18 +365,21 @@ Every box carries a scenario.
 | Box or process | Screens | Pattern | Who sees it |
 |---|---|---|---|
 | `browse-catalogue` | The catalogue | list | Shopper |
-| `shop/products` | A product · add or change, withdraw | detail · form | Shopper · Owner |
-| `shop/carts` | The cart, with *sold out* and *withdrawn* on a line (R1, R4) | detail | Shopper |
+| `shop/products` | A product · add or change, withdraw | record · form | Shopper · Owner |
+| `shop/carts` | The cart, with *sold out* and *withdrawn* on a line (R1, R4) | record | Shopper |
 | `place-order` | Placing the order, and its result | flow | Shopper |
 | `shop/stock` | Stock levels, restock | list · form | Owner |
-| `shop/orders` | Orders by state · an order, with *paid* and *cancel* | list · detail | Owner |
+| `shop/orders` | Orders by state · an order, with *paid* and *cancel* | list · record | Owner |
 
 **Navigation:** one section, `shop` — the catalogue for a shopper; products,
 stock and orders for the owner.
 
+**Public pages' target queries:** handmade ceramic mugs and bowls by the maker's
+name (catalogue), and each piece's name (product page).
+
 #### 12.2 To build
 
-| Part | Kind | Carries |
+| Deliverable | Kind | Carries |
 |---|---|---|
 | API | API | `shop` — every box and process; `accounts`, `notifications` |
 | Shop site | front end | `browse-catalogue`, `products`, `carts`, `place-order` |

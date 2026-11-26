@@ -14,7 +14,7 @@ why.
 | Cost | What makes it grow | The rule against it |
 |---|---|---|
 | **Round trips** | A query per item, or awaits that run one after another | Read in sets, and send independent reads together |
-| **Rows read** | A scan where an index should serve, or a read with no bound | An index behind every hot filter, and a limit on every list |
+| **Rows read** | A scan where an index can serve, or a read with no bound | An index behind every hot filter, and a limit on every list |
 | **Bytes** | Whole rows read where a few columns would do | Select what the caller uses |
 | **Repeated work** | The same lookup made twice in one request | Compute once per request, and pass it down |
 | **Client weight** | Code a screen does not need, loaded up front | Load per screen, and load heavy parts on demand |
@@ -119,10 +119,10 @@ rules keep it the second way.
 
 A response is cached only where staleness is a decision someone has made. How
 long a guest may see an old price or old stock is a business answer, not a
-technical one. The answer given is a minute: a guest may see a price or stock
-that old. A response that depends on the visitor is never cached, and a shared
-one is cached for that minute, and no longer than the minute is promised. The
-rule that puts each read on one side is in [the API convention](../../conventions/api.md#public-reads-are-cached).
+technical one. For example, if the business sets that window at one minute, a
+shared response is cached for up to a minute and no longer than that window is
+promised; a response that depends on the visitor is never cached. The rule that
+puts each read on one side is in the project's conventions — API.
 
 ## How it is checked
 

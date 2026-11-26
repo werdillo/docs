@@ -8,8 +8,9 @@ line in that project's roadmap.
 ## Environments and secrets per environment
 
 No rule says how a project's environments differ (local, staging, production),
-or where each environment's secrets come from. The stack names Worker secrets
-and Cloudflare's managed storage, and stops there. What would settle it: a rule
+or where each environment's secrets come from. The stack asks for managed
+primitives (for example, platform secrets and managed storage) and stops there.
+What would settle it: a rule
 for how each environment's configuration and secrets are bound, so that none is
 written into the tree.
 

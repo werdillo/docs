@@ -27,23 +27,22 @@ layer fails instead of leaving a row that walks nothing.
 `from → specifier`, one line per crossed arrow, asserted against an empty list:
 
 ```
-shop/pages/handlers/create.ts → ../../booking/slots/open
+shop/products/handlers/create.ts → ../../booking/slots/open
 ```
 
 ## The template
 
 The map and the walk, trimmed. A front end's and a client's differ in their
-`ALLOWED` values and the import forms they read; the loop is the same.
+`ALLOWED` values and the import forms they read; the loop is the same. A project
+that adds a shared domain-adjacent layer (such as `settings`) places it between
+`features` and the domains.
 
 ```ts
 const ALLOWED: Record<string, string[]> = {
   core: [],
   features: ["core"],
-  settings: ["core", "features"],
-  audience: ["core", "features"],
-  cms: ["core", "features", "settings", "audience"],
-  shop: ["core", "features", "settings", "audience"],
-  booking: ["core", "features", "settings", "audience"],
+  shop: ["core", "features"],
+  booking: ["core", "features"],
 };
 
 /** The top-level folder an import lands in, or null for a library. */

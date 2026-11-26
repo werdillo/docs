@@ -18,10 +18,11 @@ package's `__init__.py`.
 - **The door exports what its consumers use, and nothing else.**
 - **Inside one box**, files import each other by relative path.
 - **What lies below is imported by path, not through a door.** `shared` and
-  `features` are common ground beneath the domains, imported from any domain,
-  in full; they never import a domain, so no cycle can come from them. A box
-  inside a `shared` is part of that ground: its files are imported by path,
-  and an entry file there is a convenience, not a gate.
+  `features` are common ground beneath the domains, imported from any domain by
+  path; they never import a domain, so no cycle can come from them. Inside
+  `features`, peer boxes are still neighbours and reach each other through their
+  doors. A box inside a `shared` is part of that ground: its files are imported
+  by path, and an entry file there is a convenience, not a gate.
 - **Domains never import each other.**
 - **A process is not a neighbour.** No box calls a process; the routes that
   start one belong to it.

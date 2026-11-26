@@ -9,12 +9,12 @@ a fourth holds who declares a table.
 ## No foreign key
 
 A file that declares a table with a key (a reference or a foreign-key call) may
-import only from its own module. Between boxes a table holds the other's **id**,
+import only from its own box. Between boxes a table holds the other's **id**,
 never a foreign key, so the database carries no dependency the import tests
 cannot see.
 
 The check is on the file, not the column: if the file names a foreign key at
-all, every import it makes must resolve inside its own module. It over-reports
+all, every import it makes must resolve inside its own box. It over-reports
 a file that declares a key and imports a neighbour's table for an unrelated
 reason — split the file. The alternative is a parser that knows which column
 points where, and the import is the fact that matters.
@@ -74,8 +74,8 @@ function writePattern(local: string, cleanupFile: boolean): RegExp {
 }
 ```
 
-**A table held in a variable is the same table.** An object's `table: blocks`,
-destructured later as `{ table }`, or `const x = blocks`: the guard follows the
+**A table held in a variable is the same table.** An object's `table: products`,
+destructured later as `{ table }`, or `const x = products`: the guard follows the
 binding and treats every table the name can stand for as written. One name may
 stand for several tables when it is a list's field.
 
@@ -96,8 +96,9 @@ What the write pass cannot see is there too.
 
 ## Every table declared by one part
 
-The install step learns a box's tables from its part. So every table a domain or
-the settings layer declares is listed by exactly one part:
+The install step learns a box's tables from its part. So every table declared by
+a domain — or by any other layer that owns data, such as `features` — is listed
+by exactly one part:
 
 - **undeclared** — a table no part lists is owned by nothing: no project
   cleanup, no backup, no erase.

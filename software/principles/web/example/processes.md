@@ -12,9 +12,10 @@ so the line gets a folder of its own:
 ```
 api/src/shop/_processes/place-order/
   index.ts  router.ts  types.ts
-  routes/place.ts          ← POST /carts/{id}/place belongs to the process
-  handlers/placeOrder.ts   ← reads the request, calls the line, answers
-  services/line.ts         ← the line
+  routes.ts       ← POST /carts/{id}/place belongs to the process
+  handlers.ts     ← reads the request, calls the line, answers
+  line.ts         ← the line
+  freeze.ts       ← copies cart lines and prices onto the order
 ```
 
 Each box hands over the statements of its step and runs nothing — its writes,
@@ -35,12 +36,12 @@ export function takeStatements(db: Db, lines: Line[]): Statement[] {
 }
 ```
 
-`guard` is the example's name for `raiseUnless` from `core/data`; the condition
-that must hold, and the marker that names it when it does not
-([how a guard works](../stack/where-it-shows.md#how-a-guard-works)).
+`guard` is a helper from `core/data` that turns a SQL condition and a marker
+into a batch statement, rolling the batch back with that marker when the
+condition fails ([how a guard works](../stack/where-it-shows.md#how-a-guard-works)).
 
 ```ts
-// shop/_processes/place-order/services/line.ts
+// shop/_processes/place-order/line.ts
 import { CART_CLOSED, closeCartStatements, readCart } from "#/shop/carts";
 import { placedStatements } from "#/shop/orders";
 import { pricesOf } from "#/shop/products";
@@ -125,13 +126,16 @@ link that was right before it.
 
 ## 5. The product list: a process that reads
 
-The storefront's list shows each product with its price, whether it is in
-stock, and how many are already in the shopper's cart — three boxes, which do
-not join. The answer is put together in a process that only reads: no
-transaction, no guards ([writing and reading](../structure/processes.md#writing-and-reading)):
+In the first version of the shop
+([the product document](../../../../bizdev/product-document/example.md)),
+`browse-catalogue` reads `products` and `stock`. Here it also reads `carts` so
+each storefront tile shows how many are already in the shopper's open cart —
+three boxes, which do not join. The answer is put together in a process that
+only reads: no transaction, no guards
+([writing and reading](../structure/processes.md#writing-and-reading)):
 
 ```ts
-// shop/_processes/browse-catalogue/services/list.ts — one read per box, joined in memory
+// shop/_processes/browse-catalogue/list.ts — one read per box, joined in memory
 export async function productList(db: Db, shopper: Shopper, page: Page): Promise<Tile[]> {
   const products = await listProducts(db, page);
   const ids = products.map((product) => product.id);

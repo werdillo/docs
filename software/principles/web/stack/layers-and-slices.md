@@ -5,8 +5,8 @@ axes are worth keeping apart:
 
 - **Layers** run through `src/`: a front end usually has
   `core ← components ← features ← domains`; a server has
-  `core ← features ← domains`; the contracts package has `core` plus one folder
-  per domain. A layer is a matrix of boxes.
+  `core ← features ← domains`; the contracts package has
+  `core ← features ← domains`. A layer is a matrix of boxes.
 - **Slices** sit inside one box. They are the kinds of code it is made of, and
   a box uses only the ones it needs.
 

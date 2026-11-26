@@ -2,23 +2,26 @@
 
 ## The layers
 
-`src/` has three layers, and an import points down:
+`src/` has four layers, and an import points down:
 
 ```
-core  ←  boxes  ←  main
+limits  ←  core  ←  boxes  ←  main
 ```
 
+- **`limits`** holds compile-time bounds and asserts the relations between
+  them. It imports nothing of the program, so every subject box above it may
+  import it.
 - **`core`** knows no subject of this program. The test is whether another
   program could use the file unchanged: a pool, a ring buffer, the locked
-  allocator, a parser of a format that a standard defines. It imports the
-  standard library and nothing else of the program.
-- **The boxes** are the program's subjects. They are **ordered** by the
-  **layer map**, and a box imports only boxes before it in the map.
+  allocator, a parser of a format that a standard defines. It imports only
+  `std` and nothing else of the program.
+- **The boxes** are the program's subjects, sitting above `core`. They are
+  **ordered** by the **layer map**, and a box imports only boxes before it in
+  the map. When several boxes share subject-specific types or an interface
+  (such as `board` in firmware), those live in a low subject box above `core`,
+  not in `core`.
 - **`main`** is the composition root. It imports any box and is imported by
   nothing.
-
-`limits` is a box at the bottom of the map that every box above may import:
-it is constants, and it is the one thing every box may know about the whole.
 
 ## A box
 

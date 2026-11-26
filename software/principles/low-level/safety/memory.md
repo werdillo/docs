@@ -94,7 +94,7 @@ pub fn Pool(comptime T: type) type {
         const Slot = struct { item: T, used: bool, free: u32 };
         const Self = @This();
 
-        pub fn init(gpa: std.mem.Allocator, count: u32) !Self {
+        pub fn init(gpa: std.mem.Allocator, count: u32) std.mem.Allocator.Error!Self {
             assert(count > 0);
 
             var slots: std.MultiArrayList(Slot) = try .initCapacity(gpa, count);
@@ -242,7 +242,8 @@ release. A leak is then a missing line a reader can see:
 var pool = try Pool.init(gpa, options.connections_max);
 errdefer pool.deinit(gpa);
 
-const buffers = try gpa.alloc(u8, options.connections_max * limits.request_buffer_size);
+const buffers_size: u64 = @as(u64, options.connections_max) * limits.request_buffer_size;
+const buffers = try gpa.alloc(u8, @intCast(buffers_size));
 errdefer gpa.free(buffers);
 
 const active = try gpa.alloc(Handle, options.connections_max);

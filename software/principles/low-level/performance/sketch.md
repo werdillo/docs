@@ -12,17 +12,17 @@ network, disk, memory and CPU; on a chip, flash, RAM, cycles, power and the
 buses ([a firmware sketch](../example/firmware.md#the-sketch)); for a library,
 what each call costs its caller.
 
-For a media server asked to stream to 4,000 clients:
+For the media server asked to stream to 4,096 clients:
 
 | Resource | Bandwidth | Latency |
 |---|---|---|
-| **Network** | 4,000 × 8 Mbit/s = 32 Gbit/s — more than one 25 Gbit link; the limit is the link, or the bitrate | first byte: one round trip plus one disk read |
-| **Disk** | 4 GB/s read if nothing is cached; an NVMe gives 3–7 | a cold read: ~100 µs on NVMe, ~10 ms on a spinning disk |
-| **Memory** | 4,000 × 64 KiB buffers ≈ 250 MiB; the page cache takes the rest | a cache miss: ~100 ns |
-| **CPU** | copying 4 GB/s through user space is a core or more; handing the file to the kernel is close to none | one system call: ~1 µs; 4,000 per tick is 4 ms |
+| **Network** | 4,096 × 8 Mbit/s ≈ 32.8 Gbit/s — more than one 25 Gbit link; the limit is the link, or the bitrate | first byte: one round trip plus one disk read |
+| **Disk** | ~4.1 GB/s read if nothing is cached; an NVMe gives 3–7 | a cold read: ~100 µs on NVMe, ~10 ms on a spinning disk |
+| **Memory** | 4,096 × 16 KiB request buffers = 64 MiB (plus pool slots and active list); the page cache takes the rest | a cache miss: ~100 ns |
+| **CPU** | copying ~4.1 GB/s through user space is a core or more; handing the file to the kernel is close to none | one system call: ~1 µs; 4,096 per tick is ~4 ms (batched to 256 per tick: ~256 µs) |
 
 A sketch like this takes ten minutes and already says where the design is
-decided: the network link bounds everything, the bytes should not pass
+decided: the network link bounds everything, the bytes do not pass
 through user space, and a system call per connection per tick is affordable
 while one per small packet would not be. It also produces the first draft of
 the [limits file](../safety/limits.md#limits-live-in-one-file).

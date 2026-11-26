@@ -25,8 +25,8 @@ the stack does, and it is chosen by the same qualities.
 
 The stack is **fixed once per project**, so a new project starts from it instead
 of re-deciding. These are the qualities it keeps. Each is a default; the example
-tools are one way of meeting it, and the project's
-[conventions](../../conventions/README.md) say which ones it uses.
+tools are one way of meeting it, and the project's conventions say which ones it
+uses.
 
 1. **One runtime and one type system, end to end.** One toolchain runs install,
    scripts, tests and the type checker, so there is no second one to keep in
@@ -52,8 +52,8 @@ tools are one way of meeting it, and the project's
 7. **Configuration where the tool reads it.** A tool that reads its config from
    its own directory keeps it there; shared versions live in one central place.
 8. **One command checks everything, and CI runs the same steps.** One command
-   runs the type check, lint and unit tests of every package; browser tests are
-   a separate tier ([testing](../testing/README.md)).
+   runs the type check, lint, unit tests and database tests of every package;
+   browser and live tests are separate tiers ([testing](../testing/README.md)).
 9. **Operate by default.** The platform holds the secrets and the managed data,
    and every public write has a limit.
 
@@ -62,14 +62,14 @@ tools are one way of meeting it, and the project's
 A library whose framework adapter targets an older major version may not
 install as it ships: its adapter imports what the newer version removed. Its
 framework-free core is used as it is, and the adapter is ported onto that core
-inside the project's own `core` layer. The port mirors the original's logic and
+inside the project's own `core` layer. The port mirrors the original's logic and
 names, so a later diff against it reads easily, and the folder's README says
 what it mirrors and why.
 
 ## Choices and their traps
 
 The stack a project chose, with its versions and the traps found in it, is in
-its conventions: [`conventions/stack.md`](../../conventions/stack.md).
+the project's conventions — stack.
 
 ## In this folder
 

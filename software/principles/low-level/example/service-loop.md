@@ -76,6 +76,7 @@ The cursor goes round the active connections, so that with 4,096 open and
 /// The parent: all branching on a connection's state is here. False when it is done.
 fn step(server: *Server, handle: Handle, now_ms: u64) bool {
     const connection = server.pool.get(handle);
+    assert(now_ms >= connection.active_ms);
     if (now_ms - connection.active_ms > limits.idle_timeout_ms) {
         server.counters.timed_out += 1;
         return false;

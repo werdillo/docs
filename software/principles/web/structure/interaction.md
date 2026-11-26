@@ -109,11 +109,13 @@ both importing it from the contracts, never by one reading the other's code.
 
 A box is put where its users are, and moves when they change:
 
-- **Up, when it is shared.** A box one domain built and a second now needs moves
-  out of the domain — to the `shared` the two can both reach, or to `features`
-  when every domain needs it. It is not imported across from the first domain.
-- **Down, when it stops knowing a subject.** What no longer says anything about
-  the business — a client, a format, a primitive — goes down to `core`.
+- **Down, when it is shared.** A box one domain built and a second now needs
+  moves down out of the domain — to the `shared` the two can both reach, or to
+  `features` when every domain needs it. It is not imported across from the
+  first domain.
+- **Further down, when it stops knowing a subject.** What no longer says
+  anything about the business — a client, a format, a primitive — goes further
+  down to `core`.
 - **Into a group, when it grows.** A box past the sizes becomes a group of boxes
   with a `shared` of its own, under the same name and path.
 

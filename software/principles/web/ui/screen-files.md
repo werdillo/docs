@@ -30,6 +30,5 @@ route guard and the not-found page. It belongs to the composition root, and
 nothing below the root may import it, so a screen reaches the frame only through
 a small seam in the infrastructure layer. Through that seam a screen publishes
 the breadcrumb tail it shows while mounted, and a domain plugs its header
-widgets into the sidebar's foot. The arrow is checked by a layer test on the
-server; on the front end it is the rule and the review
-([layers](../structure/interaction.md#how-matrices-interact-with-each-other)).
+widgets into the sidebar's foot. The arrow is checked by the layer guard on both
+the server and the front end ([layers](../guards/layers.md)).

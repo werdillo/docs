@@ -11,7 +11,7 @@ level of its subjects and imported by every test that needs it:
 
 | Helper | Level | Builds |
 |---|---|---|
-| a row by the model's names | the `core` testing module | one row of any table, defaults from the schema |
+| a row by the model's names | the `core` testing box | one row of any table, defaults from the schema |
 | a project or a tenant | the box that owns it, in its `testing/` entry | the record every domain's tests need |
 | an entity with its relations | the domain's `shared/testing` | a product with its variants, or the equivalent |
 | a stubbed answer | a browser suite's `fixtures` | the backend as the screen expects it, and a knob per answer |
@@ -48,7 +48,7 @@ fixes a violation removes its entry in the same commit.
 
 **A test that can pass while the code is broken is not a test.** A guard asserts
 the thing it names, not merely that the suite ran. A deliberate soft signal — a
-size, an advisory, a measurement that should not fail a build — says so in its
+size, an advisory, a measurement that does not fail a build — says so in its
 header, so no one mistakes it for a guard.
 
 **A guard is seen to fail before it is trusted.** When one is written, its

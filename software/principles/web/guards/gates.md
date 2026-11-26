@@ -35,8 +35,7 @@ or a guest body, and the write then:
   rating until staff approve it.
 
 The address stays on the row, so the personal-data registry finds the writer by
-it. The names of the gate and the write are in the API's convention
-([api](../../conventions/api.md)).
+it. The names of the gate and the write are in the project's conventions — API.
 
 ## A gate belongs to the router that is mounted
 
@@ -90,8 +89,7 @@ project another way. A sign-in with a third party is the case:
 - **Each is listed in the access-audit exceptions** with its reason. The
   callback is also in the throttle list, since it creates an account.
 
-The project's own instance of this is in the API's convention
-([api](../../conventions/api.md)).
+The project's own instance of this is in the project's conventions — API.
 
 ## The route failure
 

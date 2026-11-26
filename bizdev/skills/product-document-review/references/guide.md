@@ -190,10 +190,11 @@ sections above, and record each fix in 11.5 and in the decisions (14).
   becomes a support ticket.
 - **11.3 Roles → actions.** Who may do each scenario. A scenario two roles can
   both do needs a reason; a role with no scenario is not a role.
-- **11.4 Walkthrough.** Read each scenario aloud, one step at a time, and say
-  which box or process does it, what it changes, which transition of section 10
-  that is, and which rules it must keep. A step with no box, a change with no
-  transition, a rule no step checks — each is a mistake found.
+- **11.4 Walkthrough.** Read each cross-box scenario — and any scenario with
+  rules or state changes — aloud, one step at a time, and say which box or
+  process does it, what it changes, which transition of section 10 that is, and
+  which rules it must keep. A step with no box, a change with no transition, a
+  rule no step checks — each is a mistake found.
 - **11.5 Found on paper.** The list of what the checks caught. It is also the
   document's record that the checks were run.
 
@@ -212,20 +213,22 @@ sections above, and record each fix in 11.5 and in the decisions (14).
 
 ### 12.1 To design
 
-One line per box or process that a person sees. The pattern is a screen shape
-from [`design/patterns/`](../../design/patterns/README.md); the navigation is
-the domains. A box with no screen — a capability people never see — has no
-line. The rules (8) go with it: a rule a person can break from a screen needs a
-message on that screen.
+One line per box or process that a person sees. The pattern is a canonical
+screen shape from [`design/patterns/`](../../design/patterns/README.md); the
+navigation is the domains. A box with no screen — a capability people never see
+— has no line. The rules (8) go with it: a rule a person can break from a screen
+needs a message on that screen. For a public site, list the searches each public
+page answers so its title, heading and address stay anchored to them.
 
 ### 12.2 To build
 
-The parts are what is built and deployed separately: an API, an admin front
-end, a client, firmware, a device. A domain is the same in every part, so a
-part lists the boxes it carries, not new ones. How the parts are built is
-[software](../../software/README.md) or [hardware](../../hardware/README.md);
-this document stops at naming them. The rules become the tests that guard them,
-and the *What if* tables the cases those tests cover.
+The deliverables are what is built and deployed separately: an API, an admin
+front end, a client, firmware, a device. A domain is the same in every
+deliverable, so each deliverable lists the boxes it carries, not new ones. How
+they are built is [software](../../software/README.md) or
+[hardware](../../hardware/README.md); this document stops at naming them. The
+rules become the tests that guard them, and the *What if* tables the cases those
+tests cover.
 
 **The first slice** is the smallest set of boxes and processes that completes
 one scenario of the first version end to end — built first, so the whole line
@@ -234,7 +237,7 @@ is real before any box is finished.
 ### Gate 4
 
 - [ ] Every box a person sees has a line in 12.1.
-- [ ] Every part in 12.2 carries only boxes from section 9.
+- [ ] Every deliverable in 12.2 carries only boxes from section 9.
 - [ ] The first slice completes one scenario end to end.
 - [ ] Open questions that block the first slice are answered.
 

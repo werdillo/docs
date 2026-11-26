@@ -31,11 +31,12 @@ What each test fails on is the table in [enforcement](../architecture/enforcemen
 |---|---|
 | [`layers.md`](./layers.md) | Layers, and the layer map |
 | [`doors.md`](./doors.md) | Boundaries, cycles, commands, the door's contents, the editing entry |
-| [`writes.md`](./writes.md) | Cross-box keys, owned writes, and the table declarations |
+| [`writes.md`](./writes.md) | Cross-box keys, foreign joins, owned writes, and table declarations |
 | [`schema.md`](./schema.md) | Schema |
 | [`gates.md`](./gates.md) | Access, and mounts |
 | [`jobs.md`](./jobs.md) | Jobs |
-| [`ui.md`](./ui.md) | Kit usage, and public surface |
+| [`ui.md`](./ui.md) | Kit usage, two halves, and public surface |
+| [`site.md`](./site.md) | Site — heads, links, sitemap, kept addresses, product UI `noindex` |
 | [`placement.md`](./placement.md) | Same place |
 | [`module-graph.md`](./module-graph.md) | The walker they share: files, specifiers, boxes and layers |
 
@@ -76,7 +77,7 @@ than from a rewrite ([how to use this](../README.md#how-to-use-this)).
 
 They are not a proof. Each page names what its guard cannot see, and what holds
 that instead: a resolution the walker does not make, a write behind a name it
-does not know, a route that should have been a job and never was. What a guard
+does not know, a route that belongs in a job and never became one. What a guard
 does not see is a rule plus review, never a silent hole.
 
 They are also not a tier. A guard is a unit test that reads source, so it sits

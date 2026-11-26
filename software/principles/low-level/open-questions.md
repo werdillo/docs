@@ -7,12 +7,14 @@ one line in that project's roadmap.
 
 ## More than one core
 
-The rules assume one thread that owns all state: one event loop, ticks, no
-locks. They do not say how a program uses several cores. The candidates are
-a thread per core, each with its own loop, pools and share of the limits, and
-nothing shared; or several processes behind one listening socket. What would
-settle it: a rule for what — if anything — threads may share, and how the
-limits file divides a limit among them.
+Fixed thread pools started at startup, bounded queues between threads,
+explicit atomic orderings and bounded control-plane locks are already settled
+([sharing between threads, cores and interrupts](./safety/memory.md#sharing-between-threads-cores-and-interrupts)).
+What is not decided is how a service divides its work and its `limits` across
+several cores. The candidates are a thread per core, each with its own loop,
+pools and share of the limits; or several processes behind one listening
+socket. What would settle it: a rule for choosing between the two shapes, and
+how the limits file divides a limit among cores.
 
 ## TLS and the dependency rule
 

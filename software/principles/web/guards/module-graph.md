@@ -6,8 +6,9 @@ answered once, by the walker the guards share, and each guard adds only its
 edge.
 
 **Why one walker.** A guard that re-parsed the tree would answer "what is a box"
-its own way, and two answers drift. One walker means every guard, a new alias is added once, and a change to the shape of a layer
-reaches every test at once ([a rule lives once](../rules.md)).
+its own way, and two answers drift. One walker means every guard agrees on the
+graph, a new alias is added once, and a change to the shape of a layer reaches
+every test at once ([a rule lives once](../rules.md)).
 
 ## What it does
 
@@ -16,7 +17,7 @@ reaches every test at once ([a rule lives once](../rules.md)).
   exempts, so the exemption is visible where it applies.
 - **Resolves a specifier.** A relative path resolves against the importing
   file; the package alias (`#/`) resolves against `src/`; anything else is a
-  library and resolves to `null`. A trailing `.ts` and `/index` are normalized,
+  library and resolves to `null`. A trailing `.ts` and `/index` are normalised,
   so `./door` and `./door/index.ts` (in code) are the same target.
 - **Loads the file.** The target is a file (`<target>.ts`) or a folder's entry
   (`<target>/index.ts`); a specifier that resolves to neither is not an edge in
@@ -28,9 +29,9 @@ reaches every test at once ([a rule lives once](../rules.md)).
   is not a technical slice, not under `shared/`, and not an underscore folder. A
   folder whose subfolder is itself a box is a **group**, not a box; the group's
   own files belong to no box. Nothing inside a slice is a box.
-- **Assigns a module.** The folder a file belongs to for data: the path up to
-  the first technical layer, with the segment after `shared/` read as a feature
-  name. Two files with the same module own the same tables.
+- **Assigns a data owner.** The box folder a file belongs to for data: the path
+  up to the first technical slice, with a box under `shared/` keeping its own
+  path. Two files with the same owner own the same tables.
 
 ## The template
 

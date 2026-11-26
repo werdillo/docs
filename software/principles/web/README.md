@@ -13,7 +13,7 @@ answers asked for most: **where new code goes**
 ([the questions in order](./cheatsheet.md#where-does-code-go)), and **how much of this a
 project needs** — new, small or existing ([how to use this](#how-to-use-this)).
 
-The vocabulary is in [`words.md`](./words.md), and the principles 1–48 in one list in [`rules.md`](./rules.md).
+The vocabulary is in [`words.md`](./words.md), and the principles 1–54 in one list in [`rules.md`](./rules.md).
 
 The core of the architecture — the words and the matrix, shared by every section of this repository — is in [`shared/`](../../../shared/README.md).
 
@@ -113,7 +113,7 @@ watch over it.
 | Folder or file | What it holds |
 |---|---|
 | [`words.md`](./words.md) | **The words** — one word per thing, from the outside in: project, package, layer, domain, matrix, group, box. |
-| [`rules.md`](./rules.md) | **The principles** — the one-line list 1–48, grouped by what they are about, each expanded in its folder. |
+| [`rules.md`](./rules.md) | **The principles** — the one-line list 1–54, grouped by what they are about, each expanded in its folder. |
 | [`example/`](./example/README.md) | **One project, end to end** — a small shop, from its tree to its code, gaining each process when its signal shows. |
 | [`cheatsheet.md`](./cheatsheet.md) | **One page** — the questions in order, the ladder, the levels, a write, a read, the tests. |
 | [`open-questions.md`](./open-questions.md) | **Known gaps** that are not rules yet; each says what would settle it. |
@@ -122,6 +122,7 @@ watch over it.
 | [`testing/`](./testing/README.md) | **Tests** — where a test lives, what each tier guards, and the helpers and guards they share. |
 | [`guards/`](./guards/README.md) | **The reference for the tests** — how each rule is checked: what each structure test checks, the failure it reports, what it cannot see, and the walker they share. Read it when writing one. |
 | [`ui/`](./ui/README.md) | **Screens and the UI kit** — the design language and its tokens, how a front end's screens compose one kit, how the kit grows, and how a screen file reads. |
+| [`site/`](./site/README.md) | **Public sites** — how a public site is found, read and shared: its first HTML, its addresses, its heads, and keeping product UIs out of search. |
 | [`stack/`](./stack/README.md) | Allowed languages, what a stack must provide, and where the stack shows through the rules. |
 
 ## How to use this
@@ -154,7 +155,6 @@ watch over it.
   cross-box foreign keys last, because that is a change to data. A test turned
   on part-way may start from today's list of violations, a list that only
   shrinks.
-- **Changing a tool** is a change to the standard, made here and in this
-  repository's [conventions](../conventions/README.md) — its one full realisation —
-  for every project, not swapped for a favourite in one. The architecture rules
-  are the reason a change has to earn its place.
+- **Changing a tool** is a change to the standard, made here and in the
+  project's conventions for every project, not swapped for a favourite in one.
+  The architecture rules are the reason a change has to earn its place.

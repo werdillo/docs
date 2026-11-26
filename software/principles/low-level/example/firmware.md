@@ -27,9 +27,10 @@ src/
   simulation.zig       ← the node on the host board, for a simulated minute
   limits/root.zig      ← rates, periods, sizes, the deadline
   core/
-    root.zig           ← door: RingBuffer, Board, Samples
+    root.zig           ← door: RingBuffer (imports only `std`)
     ring_buffer.zig    ← one producer, one consumer, no lock
-    board.zig          ← the hardware, as the node sees it
+  board/
+    root.zig           ← door: Board, RadioError, Samples (the hardware, as the node sees it)
   filter/root.zig      ← a fixed-point low-pass filter; knows no chip
   report/root.zig      ← samples → one frame for the radio; knows no chip
   node/root.zig        ← the work of one turn; knows no chip
@@ -38,21 +39,27 @@ src/
 ```
 
 ```zig
-/// The layer map. The two boards are last: only `main` and the tests are given one.
+/// The layer map (`limits ← core ← boxes ← main`). The two board implementations are last:
+/// only `main` and the tests are given one.
 const layer_map = [_]Box{
     .{ .name = "limits", .imports = &.{} },
-    .{ .name = "core", .imports = &.{"limits"} },
+    .{ .name = "core", .imports = &.{} },
+    .{ .name = "board", .imports = &.{ "limits", "core" } },
     .{ .name = "filter", .imports = &.{} },
     .{ .name = "report", .imports = &.{"limits"} },
-    .{ .name = "node", .imports = &.{ "limits", "core", "filter", "report" } },
-    .{ .name = "board_host", .imports = &.{ "limits", "core" } },
-    .{ .name = "board_chip", .imports = &.{ "limits", "core" } },
+    .{ .name = "node", .imports = &.{ "limits", "core", "board", "filter", "report" } },
+    .{ .name = "board_host", .imports = &.{ "limits", "core", "board" } },
+    .{ .name = "board_chip", .imports = &.{ "limits", "core", "board" } },
 };
 ```
 
-`node` is the program's subject, and it is below both boards: it cannot name
-a register even by accident, and the compiler would say so. Everything above
-the boards' line runs unchanged on the developer's machine.
+`core` imports only `std` and holds only `RingBuffer`. The hardware interface
+(`Board`, `RadioError`, `Samples`) lives in its own low subject box `board`,
+above `core`. `node` sits **below** both board implementations (`board_host`
+and `board_chip`): it cannot name a register even by accident, and the
+compiler refuses the import. Everything below the board implementations —
+`limits`, `core`, `board`, `filter`, `report` and `node` — runs unchanged on
+the host.
 
 ## The limits
 
@@ -62,7 +69,7 @@ const std = @import("std");
 const assert = std.debug.assert;
 
 pub const sample_rate_hz: u32 = 1000;
-pub const sample_period_us: u32 = 1_000_000 / sample_rate_hz;
+pub const sample_period_us: u32 = @divExact(1_000_000, sample_rate_hz);
 pub const samples_ring_count: u32 = 256;
 pub const samples_per_turn_max: u32 = 64;
 pub const report_period_us: u32 = 1_000_000;
@@ -86,11 +93,11 @@ program does not compile. The deadline is a limit like a buffer size
 
 ## The board
 
-The hardware is an interface in `core`, and the node is given one:
+The hardware is an interface in `board`, and the node is given one:
 
 ```zig
 /// The hardware, as the node's boxes see it. `main` gives them the chip's board; the tests,
-/// the host's. Nothing above this names an address.
+/// the host's. Nothing below the board implementations names an address.
 pub const Board = struct {
     context: *anyopaque,
     vtable: *const VTable,
@@ -140,7 +147,7 @@ pub fn RingBuffer(comptime T: type, comptime count: u32) type {
         items: [count]T = undefined,
         write_index: u32 = 0,
         read_index: u32 = 0,
-        dropped_count: u32 = 0,
+        dropped_count: std.atomic.Value(u32) = .init(0),
 
         const Self = @This();
 
@@ -150,7 +157,8 @@ pub fn RingBuffer(comptime T: type, comptime count: u32) type {
             const read = @atomicLoad(u32, &ring.read_index, .acquire);
             assert(write -% read <= count);
             if (write -% read == count) {
-                ring.dropped_count +%= 1;
+                // Monotonic: a standalone counter; no other shared data depends on it.
+                _ = ring.dropped_count.fetchAdd(1, .monotonic);
                 return;
             }
             ring.items[write % count] = item;
@@ -164,9 +172,10 @@ pub fn RingBuffer(comptime T: type, comptime count: u32) type {
 - **The indexes run free and wrap**; their difference is the fill, which the
   assertion bounds. A power-of-two count makes `% count` exact across the
   wrap, and the build refuses another.
-- **Full is an answer**: the sample is dropped and counted, and the count
-  goes out with the next report. An interrupt that waited for room would
-  wait for the loop it interrupted
+- **Full is an answer**: the sample is dropped and counted atomically
+  (`std.atomic.Value(u32)` with `.monotonic` ordering), so the main loop reads
+  the count safely for the next report without racing the interrupt. An
+  interrupt that waited for room would wait for the loop it interrupted
   ([what happens at a limit](../safety/limits.md#what-happens-at-a-limit)).
 
 Next: [the loop](./firmware-loop.md).

@@ -32,7 +32,7 @@ parked at the side is a second map of the code, and the two drift.
 ## Size
 
 A tests folder follows the box's size rule: flat while it is small, and past
-about 8–9 files it groups them by subject — a folder per checkout, per record
+about 7–9 files it groups them by subject — a folder per checkout, per record
 kind — the same signal as code
 ([flat when small](../structure/sizes.md#flat-when-small-and-the-sizes)). Grouping
 is the whole shape; a tests folder needs no barrel, because it has no interface.
@@ -43,8 +43,8 @@ A heap of forty files named after verbs is a second tree by another name.
 - **The file names its subject** — the theme draft, the line quantities — never
   a generic name such as "services" or "utils".
 - **The suffix marks the tier**, so the cost of running it is read from the name
-  before the file opens. The suffixes a project uses are in its
-  [testing convention](../../conventions/testing.md#naming).
+  before the file opens. The suffixes a project uses are in the project's
+  conventions — testing.
 - **The folder says where it sits**: a line-quantity write test in an orders box's
   tests folder is that box's write.
 - **The same basename in two boxes is fine** — the path is the address.

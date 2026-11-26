@@ -10,6 +10,7 @@ real browser, and one is the light browser an agent works in.
 | unit, behaviour on a front end | the framework's runner, on a DOM | the reaction a render makes |
 | database | the runtime's own runner | real SQL, against a real database |
 | browser | a browser-automation runner over a real browser | the screen a person sees |
+| live | the runtime's or browser runner against the real backend | what the real backend answers and refuses |
 | verification before hand-over | a light browser over a debugging protocol | the behaviour, while the work is being made |
 
 ## The runner
@@ -49,8 +50,7 @@ browser answers anything rendering-dependent**.
 
 A runner that can only speak its own protocol cannot connect to a light browser
 that speaks another, so the browser suites stay on the real engine. The light
-browser's limits and its setup are in the project's convention
-([testing](../../conventions/testing.md)).
+browser's limits and its setup are in the project's conventions — testing.
 
 ## The loop
 
@@ -63,4 +63,4 @@ browser's limits and its setup are in the project's convention
 The light browser shortens the distance between a change and a look at it; it
 does not move the gate. The browser tier and the one command that checks
 everything still decide ([rule 41](../rules.md)), and the commands for a project
-are in its [testing convention](../../conventions/testing.md).
+are in the project's conventions — testing.

@@ -25,7 +25,7 @@ When a long function is split, the cut follows responsibility, not length.
   the parent, where a reader sees every case together. A helper is given the
   case already decided and does not branch on it again.
 - **One function owns the state.** The parent keeps the state in its locals
-  and fields; a helper computes what should change and returns it, and the
+  and fields; a helper computes the change and returns it, and the
   parent applies it.
 - **Leaves are pure.** A helper that takes values and returns a value can be
   read, tested and trusted alone.
@@ -84,7 +84,7 @@ void  <  bool  <  u64  <  ?u64  <  !u64
 
 ## Comptime for what is known before the program runs
 
-What can be known when the program is built should be decided then. A value
+What can be known when the program is built is decided then. A value
 the compiler computes costs nothing at run time, cannot fail in the field,
 and is checked by the build. That makes comptime one of the strongest tools
 for these rules — used for what it is for.
@@ -172,7 +172,7 @@ A file is read from the top, so the important thing is first.
   const Slot = struct { item: T, used: bool, free: u32 };
   const Self = @This();
 
-  pub fn init(gpa: std.mem.Allocator, count: u32) !Self {
+  pub fn init(gpa: std.mem.Allocator, count: u32) std.mem.Allocator.Error!Self {
       // …
   }
   ```

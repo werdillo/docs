@@ -14,8 +14,8 @@ Grouped by what they are about. Each is expanded in the folder or file named.
    layer fills, rather than importing upward; a third party is reached through
    a port its user owns, filled by one adapter per provider, and every call
    to it has a timeout and a retry count. *(default)*
-2. **The composition root is the only place that knows everything**; every box
-   declares itself, and the root lists the declarations. *(default)*
+2. **The composition root is the only place that knows everything** *(guarded)*;
+   every box declares itself, and the root lists the declarations.
 3. **A contract lives once**, at the boundary, and a consumer parses it;
    what comes in has a maximum size, checked before it is parsed.
    *(default)*
@@ -23,21 +23,22 @@ Grouped by what they are about. Each is expanded in the folder or file named.
    boundary maps the code to a status. *(default)*
 5. **Fail closed** *(guarded)* — the owner decides access, every read is scoped,
    absence and denial look the same, and a secret is writer-only.
-6. **A reader sees a view, never a row** — a public read is field by field; a
-   list is a summary and a detail is the full shape; and a view is **grouped**: aim
-   for about 9–10 top-level keys — `id`, `meta` and the business blocks. A flat
-   record is never sent. *(default; the key count is a signal)*
+6. **A reader sees a view, never a row** *(guarded; the key count is a signal)*
+   — a public read is field by field; a list is a summary and a detail is the
+   full shape; and a view is **grouped**: aim for about 9–10 top-level keys —
+   `id`, `meta` and the business blocks. A flat record is never sent.
 7. **Atomic writes are one transaction; racing writes are versioned** — and a
    write that reaches outside the database answers for it. *(default)*
 8. **A box owns its data; between boxes, reference by id** *(guarded)* — on a
    server, its tables: no cross-box foreign key or join, and so nothing cascades
    between boxes.
-9. **Long work is a job, never a request** — idempotent, retried, dead-lettered.
-   *(default)*
+9. **Long work is a job, never a request** *(guarded)* — idempotent, retried,
+   dead-lettered.
 10. **Boxes meet through their doors** *(guarded)* — a box reaches a neighbour only through
     its entry file, which holds only import and export lines and its part;
     inside a box, files import each other by relative path. `shared` and `features` lie
-    below the domains and are imported by path. Domains never import each
+    below the domains and are imported from domains by path; peer boxes inside
+    `features` still meet through their doors. Domains never import each
     other, another box's commands are called only by a process, and no
     cycle runs through doors. A domain's or a group's entry is composition,
     and exempt.
@@ -66,9 +67,10 @@ Grouped by what they are about. Each is expanded in the folder or file named.
     boxes, is the marked third case). *(default)*
 17. **Packages share only the contracts package**; they never import each other.
     *(default)*
-18. **A box sits where its users are** — up to the `shared` they share when a
-    second one needs it, down to `core` when it stops knowing a subject, and it
-    keeps its name when it moves. *(default)*
+18. **A box sits where its users are** — down to the `shared` they share (or
+    `features` when every domain needs it) when a second one needs it, further
+    down to `core` when it stops knowing a subject, and it keeps its name when
+    it moves. *(default)*
 
 ## Micro — [`structure/`](./structure/README.md)
 
@@ -92,7 +94,8 @@ Grouped by what they are about. Each is expanded in the folder or file named.
     control, table or styled tag in a screen, only layout classes; sizes,
     colours, widths and states are the kit's.
 24. **Text is one component with a fixed scale** of about nine variants; its
-    colour is inherited unless a semantic token is named. *(default)*
+    colour is inherited unless a kit tone variant is named (e.g. `tone="muted"`,
+    `tone="danger"`), never a raw value or direct colour utility. *(default)*
 25. **A state is a variant chosen from data** — a `status → variant` map, never
     a class string; a variant never needs overriding. *(default)*
 26. **The kit grows from repetition** — three of the same markup become a kit
@@ -115,8 +118,9 @@ Grouped by what they are about. Each is expanded in the folder or file named.
     ([tokens](../../../design/system/tokens.md)). *(default)*
 32. **An internal system is calm and dense** —
     achromatic chrome, one accent for the primary action, focus and selection;
-    hierarchy by luminance and weight; app-sized text and rows. A product of this
-    kind (Linear, for one) is an example to look at, not a standard to copy
+    hierarchy by luminance and weight; app-sized text and rows. Linear is the
+    reference for behaviour (its menus, density, keyboard and screen shapes),
+    while the look is the product's own — never a copy of Linear's
     ([the design language](../../../design/languages/internal.md)). *(default)*
 33. **Four screen shapes** — a list, a record with its properties panel,
     settings, a canvas — inside one frame; a fifth is a question for the kit.
@@ -129,7 +133,7 @@ Grouped by what they are about. Each is expanded in the folder or file named.
 
 **Allowed languages:** TypeScript (the default), Go, Zig (for WebAssembly),
 Python, Rust. A stack must provide the qualities below whatever its tools; the
-tools that provide them here are in [the choices](../conventions/stack.md#the-choices).
+tools a project uses to provide them are in the project's conventions — stack.
 These are the qualities:
 
 35. **One runtime and one type system, end to end.** *(default)*
@@ -140,7 +144,9 @@ These are the qualities:
     baseline is never regenerated, and the latest snapshot must equal the models.
     ([schema](./guards/schema.md))
 38. **Prefer managed primitives** over self-run infrastructure. *(default)*
-39. **Ship nothing to a client it does not need.** *(default)*
+39. **Ship nothing to a client it does not need** *(guarded)* — plain TypeScript
+    stays separate from framework UI, and a package exports only its promised
+    names ([ui guards](./guards/ui.md)).
 40. **One copy of anything with identity**; versions pinned in one place.
     *(default)*
 41. **One command checks everything**, reproducibly, and CI runs the same steps.
@@ -178,3 +184,24 @@ desktop shell (Electrobun) for the desktop ([`stack/`](./stack/README.md)).
 48. **A guard fails loudly, and its exceptions only shrink** — a known list
     carries a reason and fails when an entry no longer matches; a soft signal
     says so in its header. *(default)*
+
+## Sites — [`site/`](./site/README.md)
+
+49. **The first HTML is the page** *(guarded)* — the content, the links and the
+    metadata are in the response, not added by a script
+    ([rendering](./site/rendering.md)).
+50. **An address is a promise** *(guarded)* — readable, stable, one per content;
+    an address that once answered redirects for ever or says it is gone
+    ([addresses](./site/addresses.md)).
+51. **A page declares its head** *(guarded)* — title, description, canonical
+    address, language, social preview and structured data live beside the page,
+    from the data it shows ([pages](./site/pages.md)).
+52. **The composition root assembles what crawlers read** *(guarded)* — the
+    sitemap, `robots.txt` and feeds are built from those declarations, never
+    listed by hand ([pages](./site/pages.md#what-the-composition-root-builds)).
+53. **A product UI is not a site: it is kept out of search, whole** *(guarded)*
+    — every route answers `noindex` and the build carries no sitemap
+    ([rendering](./site/rendering.md#a-product-ui-is-kept-out-of-search)).
+54. **Speed is measured where people are, against three numbers** — LCP, INP and
+    CLS at the 75th percentile of real visits
+    ([rendering](./site/rendering.md#speed-is-three-numbers)). *(signal)*

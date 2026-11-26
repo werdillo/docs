@@ -79,8 +79,8 @@ test "parse_request: no input breaks an assertion" {
 twenty thousand inputs, of which 406 took a path no earlier one had.
 
 **A box against a model.** The pool is driven by random acquires and
-releases, and a plain array of the handles held says what the pool should
-contain after each step:
+releases, and a plain array of the handles held says what the pool contains
+after each step:
 
 ```zig
 // The model: the handles held, in a plain array.
@@ -196,8 +196,10 @@ rather than three slices ([fewer allocations](../performance/allocations.md#fewe
 ## The guards
 
 `tidy.zig` holds the text guards — line length, function length, banned
-text, state in a door, every folder on the layer map — as tests that read
-the files ([text rules](../testing/guards.md#text-rules)). They pass on the
+text, `catch unreachable` without a comment, `anyerror` or `pub var` in a
+door, release mode in `build.zig`, every folder on the layer map, and
+recorded dependencies in `build.zig.zon` — as tests that read the files
+([text rules](../testing/guards.md#text-rules)). They pass on the
 service, and each was seen to fail on a rule broken on purpose. One case
 needed a rule of its own: `Pool` is a function that returns a type, and its
 body is the type's, so the guard counts the methods inside it, each well

@@ -48,8 +48,9 @@ not the statement order, tells the caller which condition refused.
 
 Two things the guard relies on are engine behaviour rather than a documented
 promise: that an invalid path raises, and that a `CASE` branch not taken is not
-evaluated. Both are pinned by a test on D1 itself, which runs with the checks,
-so a change of engine fails there ([how this repository tests it](../../conventions/stack.md#the-guard-on-d1)).
+evaluated. Both are pinned by a test on the target engine itself (for example,
+on D1 when the stack uses Cloudflare), run with the checks so a change of engine
+fails there (the project's conventions — stack).
 
 The read before the batch decides what to try; the guard decides whether it
 lands. The two are not interchangeable: a guard is an invariant at write time,

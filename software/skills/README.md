@@ -1,6 +1,7 @@
 # Skills
 
-*Not built yet.* Agent skills assembled from [`principles/`](../principles/README.md) and [`languages/`](../languages/README.md). A skill's `SKILL.md` starts
-from a folder's README and cheatsheet; the rest of the folder goes in as
-references. The documents stay the source of truth — a skill is rebuilt from
-them, never edited by hand.
+*Not built yet.* Agent skills built from [`principles/`](../principles/README.md) and [`languages/`](../languages/README.md).
+
+Each skill follows the repository's standard layout: a hand-written `SKILL.md`
+stating how to work and what to return, `references/` copied from the source
+documents by the build script (never edited by hand), and `evals/` beside them.

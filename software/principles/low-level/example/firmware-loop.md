@@ -4,7 +4,7 @@
 
 ```zig
 /// One turn of the super-loop: a bounded batch of samples, at most one report, one feed.
-pub fn turn(node: *Node, board: core.Board) void {
+pub fn turn(node: *Node, board: board_box.Board) void {
     const start_us = board.now_us();
 
     var drained: u32 = 0;
@@ -120,7 +120,7 @@ fn register(comptime at: usize) *volatile u32 {
 ```
 
 ```zig
-fn radio_send(context: *anyopaque, frame: []const u8) core.RadioError!void {
+fn radio_send(context: *anyopaque, frame: []const u8) board.RadioError!void {
     _ = context;
     assert(frame.len > 0);
     if (register(address.radio_status).* & radio_status_busy != 0) return error.RadioBusy;
@@ -132,9 +132,10 @@ fn radio_send(context: *anyopaque, frame: []const u8) core.RadioError!void {
 ```
 
 A busy radio and a missing acknowledgement are operating errors — the air is
-the outside — and the node above handles them. With MicroZig the addresses
-and register types come from its chip definitions, imported by this box
-alone ([the hardware is one box](../kinds/firmware.md#the-hardware-is-one-box)).
+the outside — and `node` handles them through the `board` interface. With
+MicroZig the addresses and register types come from its chip definitions,
+imported by this box alone
+([the hardware is one box](../kinds/firmware.md#the-hardware-is-one-box)).
 
 ## The entry point
 
@@ -143,15 +144,19 @@ and handed to the node:
 
 ```zig
 /// Survives a reset: the linker script keeps `.noinit` out of the startup zeroing.
+/// Holds the crash details and `crashes_count`, guarded by `count_magic` on cold power-on.
 var crash_record: CrashRecord linksection(".noinit") = undefined;
 var chip: ChipBoard = .{};
-var crashes_count: u32 = 0;
 ```
 
 ```zig
 export fn reset_handler() callconv(.c) noreturn {
+    if (crash_record.count_magic != CrashRecord.count_valid_magic) {
+        crash_record.crashes_count = 0;
+        crash_record.count_magic = CrashRecord.count_valid_magic;
+    }
     if (crash_record.magic == CrashRecord.valid_magic) {
-        crashes_count += 1; // Counted once, then the record is cleared.
+        crash_record.crashes_count +|= 1; // Counted once in `.noinit`, then cleared.
         crash_record.magic = 0;
     }
 
@@ -190,6 +195,7 @@ fn panic_handler(message: []const u8, return_address: ?usize) noreturn {
     // The Cortex-M system reset request: SCB.AIRCR with its key.
     const aircr: *volatile u32 = @ptrFromInt(0xE000_ED0C);
     aircr.* = 0x05FA_0004;
+    // Halt until the hardware reset takes effect; the panic handler never returns.
     while (true) {}
 }
 ```

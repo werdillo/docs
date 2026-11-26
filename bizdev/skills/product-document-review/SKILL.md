@@ -28,6 +28,7 @@ copied from; everything you need is here.
 | `matrix.md` | From stage 3 on. The rules a matrix must keep: the three signs of a box, the order in which boxes interact. |
 | `words.md` | From stage 3 on, or when the draft's matrix words look off. |
 | `template.md` | When the draft does not follow the template, to map its sections onto the template's. |
+| `writing.md` | Before style findings (step 6): how these documents are written — plain words, one term per thing, numbers instead of adjectives. |
 | `example.md` | To calibrate. Its section 11.5 lists what a review of its first draft found — that is the kind and depth of finding wanted. |
 
 ## How to review
@@ -62,12 +63,13 @@ copied from; everything you need is here.
    - every scenario has a carrier and every box a scenario; every thing has
      *created by*, *changed by* and *ends by* — the last is the one usually
      missing;
-   - walk the riskiest scenario step by step through the matrix: a step with no
-     box, a change with no transition, a rule no step checks are findings.
+   - walk every cross-box scenario — or at least the riskiest one when there are
+     many — step by step through the matrix: a step with no box, a change with
+     no transition, a rule no step checks are findings.
 
 6. **Tighten the language** last, and only where it causes a misreading or the
    template's rule — business words only, one term per thing — is broken.
-   A few style findings at most; they should never bury the logic.
+   A few style findings at most; they never bury the logic.
 
 ## What you leave to the author
 

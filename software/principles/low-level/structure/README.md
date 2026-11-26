@@ -52,7 +52,9 @@ path — `@import("range.zig")`. The compiler refuses the rest
 
 A program of one executable needs less than a system of several packages.
 There is no `shared` — what boxes have in common and no subject owns is
-`core`. There is no level of processes — where boxes meet is a box above
+`core` (importing only `std`), and types shared by several subject boxes live
+in a low subject box above `core`. There is no level of processes — where
+boxes meet is a box above
 them, and there is always one, because the stack is ordered. There are no
 registries a box plugs into: `main` is small enough to name each box itself.
 

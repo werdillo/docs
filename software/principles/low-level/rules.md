@@ -20,8 +20,9 @@ Grouped by what they are about. Each is expanded in the folder or file named.
 3. **Everything has a limit** — every loop, queue, buffer, retry and wait has
    an upper bound, and a loop that is meant never to end says so.
    ([limits](./safety/limits.md)) *(default)*
-4. **Limits live in one file** *(guarded)* — each is a named constant with its
-   unit, and the relations between them are asserted at compile time.
+4. **Limits live in one file** *(relations guarded)* — each is a named
+   constant with its unit in one file *(default)*, and the relations between
+   them are asserted at compile time *(guarded)*.
 5. **All memory is fixed before the work begins** *(guarded)* — static at
    compile time, allocated at startup from the limits, or given by the caller
    at `init`, in as few allocations as the design allows; after that, nothing
@@ -54,17 +55,21 @@ Grouped by what they are about. Each is expanded in the folder or file named.
 13. **The program runs at its own pace** — an outside event, a connection or
     an interrupt, is recorded, and each tick does a bounded batch of each kind
     of work. *(default)*
-14. **The safety checks ship** *(guarded)* — the release is built with them
-    on, none is switched off without a measured reason — a firmware image
-    that does not fit is one — and an option to a library is written at the
-    call site, not left to its default.
+14. **The safety checks ship** *(release mode and `@setRuntimeSafety` guarded)*
+    — the release is built `.safe` (or `.small` when a firmware image does not
+    fit) and never `.fast`, and `@setRuntimeSafety(false)` stays on the known
+    list *(guarded)*; an option to a library is written at the call site, not
+    left to its default *(default)*.
 
 ## Structure — [`structure/`](./structure/README.md)
 
-15. **The code is a stack of layers** *(guarded)* — `core ← boxes ← main`;
-    each box is a folder and a build module, ordered by the layer map in
-    `build.zig`, which gives a box only the boxes below it, so no cycle can
-    be built. ([boxes](./structure/boxes.md))
+15. **The code is a stack of layers** *(guarded)* — `limits ← core ← boxes ←
+    main`; `limits` holds compile-time bounds and imports nothing, `core`
+    holds reusable primitives with no subject of the program and imports only
+    `std`, and subject boxes sit above `core`. Each box is a folder and a
+    build module, ordered by the layer map in `build.zig`, which gives a box
+    only the boxes below it, so no cycle can be built.
+    ([boxes](./structure/boxes.md))
 16. **A box is drawn around a subject** — one purpose without an "and", its
     own state, and it changes as one. *(default)*
 17. **Boxes meet through their doors** *(guarded)* — a box's `root.zig` is
@@ -89,7 +94,7 @@ Grouped by what they are about. Each is expanded in the folder or file named.
     truly known, simpler to trust, and still visible to a reader; never a
     language of its own. *(default)*
 23. **Up to about 10 boxes; a file is one subject** — a file of about 500
-    lines with its tests asks what should be split out.
+    lines with its tests asks what to split out.
     ([sizes](./structure/boxes.md#sizes)) *(signal)*
 
 ## Performance — [`performance/`](./performance/README.md)

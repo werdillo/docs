@@ -16,6 +16,7 @@ One word per thing, and the same word in every document. From the outside in:
 | **Box** | The unit of design: one purpose, its own data, opaque from outside. It holds slices, never boxes. |
 | **`shared`** | The common ground of one matrix — what its boxes have in common, below them. Always this folder, at some level. |
 | **Door** | A box's entry file (`index` in TypeScript); the only way in for a neighbour. It holds import and export lines and one declaration — its part — and, when a process calls the box's writes, keeps those commands apart from its queries (on a server, a commands file beside it, re-exported whole). |
+| **Owner** | The one box that keeps a piece of data and changes it — its tables on a server, its state on a front end ([core words](../../../shared/words.md)). Another box holds its ids, never its records. |
 | **Query / command** | What a door exports. A query reads or computes; another box may call it, one way, never in a cycle. A command changes data; outside its own box only a process calls it. The ground below — `shared`, `features`, `core` — is not "another box": the boxes above call its exported writes. |
 | **Port / adapter** | A port is a type, in the project's terms, of what the work needs from a system outside; an adapter fills it for one provider and is the only place that provider's shape is seen. |
 | **Slice** | A kind of code inside a box — `routes`, `services`, `ui`… — behind its own entry file, or one file while it is one file. |
@@ -24,7 +25,7 @@ One word per thing, and the same word in every document. From the outside in:
 | **Outbox** | The mechanism that holds events written with a transaction and delivers them after it. At its smallest it is a job table, one kind per reaction or family of reasons; when several boxes react to the same facts it is a box in `features` — or the lowest `shared` both sides reach — with a `reacts` registry. The notification outbox is the same shape for a message to a person. |
 | **Refusal** | A rule's "no" as a value: a stable `code` from a closed list, a message for a person and the fields a form needs; the boundary adds a status and a correlation id. |
 | **Part** | The downward face of a box (or of a process that fills a registry) — the data it owns (tables on a server, state on a front end), the plugs it fills and the reactions it declares (the events it reacts to, or the job kinds and the timed work it runs), declared next to it — in the box's door or the process's index — as a declaration: checked once at load, not run as a step. Read by the composition root. Not a folder, not a level; not a plugin (one slot) or a registration (the act of installing it). A domain's entry lists its parts. |
-| **Composition root** | The one place in a package that assembles it — its the app, or its entry. |
+| **Composition root** | The one place in a package that assembles it — it is the app, or its entry. |
 
 **Feature** is not one of these words. It lives on in two names only: the
 design's, *feature matrix*, and the layer `features` — what every domain needs

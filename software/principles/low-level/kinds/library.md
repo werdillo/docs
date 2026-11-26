@@ -56,6 +56,8 @@ no clock unless the host imports one.
 
   ```zig
   /// The module's memory is its own, fixed at compile time; the host reaches it only here.
+  /// Top-level `var` is valid here: WebAssembly linear memory is per-instance, so two
+  /// instances share no state.
   var input: [input_size_max]u8 = undefined;
   var output: [output_size_max]u8 = undefined;
   ```

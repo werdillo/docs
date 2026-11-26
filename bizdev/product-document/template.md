@@ -186,8 +186,9 @@ missing scenario or a decision that it never happens.*
 
 #### 11.4 Walkthrough
 
-*Each scenario, step by step, through the matrix. Every step names its box or
-process, the thing it changes, its lifecycle transition and the rules it keeps.*
+*Each cross-box scenario (and any scenario with rules or state changes), step by
+step, through the matrix. Every step names its box or process, the thing it
+changes, its lifecycle transition and the rules it keeps.*
 
 **S1.**
 
@@ -213,13 +214,16 @@ process, the thing it changes, its lifecycle transition and the rules it keeps.*
 
 | Box or process | Screens | Pattern | Who sees it |
 |---|---|---|---|
-| `<domain>/<box>` | | *list · detail · form · settings · flow* | |
+| `<domain>/<box>` | | *list · record · form · settings · canvas · flow* | |
 
 **Navigation:** *one section per domain, in this order:*
 
+**Public pages' target queries:** *for a public site, the searches each public
+page answers (delete if there is no public site).*
+
 #### 12.2 To build
 
-| Part | Kind | Carries |
+| Deliverable | Kind | Carries |
 |---|---|---|
 | | *API · front end · client · firmware · device* | *all domains / which boxes* |
 

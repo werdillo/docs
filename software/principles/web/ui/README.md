@@ -12,8 +12,8 @@ screen says *what* is on it — a list of returns, a form with two fields, a sav
 button — and never *how it is drawn*. Sizes, colours, spacing, widths and
 states belong to the kit, chosen once, so a screen cannot drift from the others
 and a change to the look is made in one place. The kit draws with tokens named
-by the OpenDesign contract; an internal system takes Linear as an example to
-look at, not as a template.
+by the OpenDesign contract; an internal system uses Linear as the reference for
+behaviour, while keeping the look the product's own.
 
 ## In this folder
 

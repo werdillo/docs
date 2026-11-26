@@ -51,8 +51,9 @@ comptime {
     assert(path_depth_max * 2 <= path_size_max);
 }
 
-/// What the process allocates at startup, known before it runs.
-pub const memory_size_max: u64 = @as(u64, connections_max) * request_buffer_size;
+/// Request buffers allocated at startup (64 MiB); the pool slots and active list sit beside
+/// them in two small allocations.
+pub const request_buffers_size_max: u64 = @as(u64, connections_max) * request_buffer_size;
 ```
 
 - **A limit carries its unit and its qualifier in its name**, last:

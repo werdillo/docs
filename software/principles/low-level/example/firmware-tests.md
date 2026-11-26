@@ -1,14 +1,15 @@
 # The firmware's tests
 
-Everything above the boards' line in the layer map runs on the host, so most
-of the firmware is tested where tests are fast and deterministic. The board
-itself is tested on the board.
+Everything below the board implementations (`board_host` and `board_chip`) in
+the layer map runs unchanged on the host, so most of the firmware is tested
+where tests are fast and deterministic. The chip's board itself is tested on
+the board.
 
 ## The host board
 
 ```zig
 pub const HostBoard = struct {
-    samples: core.Samples = .{},
+    samples: board.Samples = .{},
     clock_us: u32 = 0,
     random: std.Random,
     radio_failure_percent: u32,
@@ -44,7 +45,7 @@ test "RingBuffer: order, a full buffer that drops, and wrapping indexes" {
     ring.read_index = ring.write_index;
 
     for (0..5) |value| ring.push(@intCast(value));
-    try std.testing.expectEqual(1, ring.dropped_count);
+    try std.testing.expectEqual(1, ring.dropped_count.load(.monotonic));
     for (0..4) |value| try std.testing.expectEqual(@as(u16, @intCast(value)), ring.pop().?);
     try std.testing.expectEqual(null, ring.pop());
 }

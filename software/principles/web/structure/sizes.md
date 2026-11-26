@@ -8,7 +8,7 @@ are the size signals the rest of the documents link to.
   imported the same way (`../api`). A box with one operation may be three
   files.
 - **A slice of about 7–9 files or more may group them into subject subfolders**
-  (above).
+  (below).
 - **A file is about 50–150 lines.** Shorter is often a file that did not need to
   be separate; longer is a file doing more than one thing.
 - **A UI component is split by what it holds, not by its length**: when its
@@ -28,7 +28,7 @@ that is flat is the shape working, not a deviation from it.
 
 The numbers — 50–150 lines, 4–6 file-subjects, 7–9 files — are questions about
 a missing level, not targets to fill or lint limits to trip. A file at 160
-lines asks what should be split out; a box at seven file-subjects asks whether
+lines asks what splits out; a box at seven file-subjects asks whether
 it has grown. No test fails on a count.
 
 ## Subfolders inside a slice
@@ -38,17 +38,17 @@ files into **subfolders by subject** — the slice's barrel re-exports the lot,
 now from beneath it:
 
 ```ts
-// the slice's entry file — still the one door to the slice
+// the slice's entry file — still the one barrel for the slice
 export { getOrder } from './records/getOrder';
-export { placeOrder } from './checkout/placeOrder';
-export { beginPayment } from './payments/beginPayment';
+export { listOrders } from './records/listOrders';
+export { confirmPayment } from './payments/confirmPayment';
 ```
 
 The subfolders need **no barrel of their own**: they are grouping, not a new
-public surface, and the slice's entry file remains the one door. Reach for a
-subfolder when a slice has passed the size signal below, and ask whether some
-of them belong together under a name — `payments/`, `records/`, `checkout/`,
-`variants/`. A slice whose files are all one subject stays flat even past that;
+public surface, and the slice's entry file remains the one barrel. Reach for a
+subfolder when a slice has passed the size signal above, and ask whether some
+of them belong together under a name — `payments/`, `records/`, `variants/`. A
+slice whose files are all one subject stays flat even past that;
 the split is by subject, not by count.
 
 In `ui/` a component that is split out of its file becomes a folder of its own,
@@ -58,17 +58,20 @@ the split is made for one of the reasons above, not for the line count.
 ## In one picture
 
 ```
-shop/products/                  ← a box
+shop/products/               ← a box
   index.ts                   ← its door (what leaves the box)
   api/                       ← a slice
     index.ts                 ← the slice's barrel
-    listBlocks.ts            ← one subject per file
+    listProducts.ts          ← one subject per file
+    saveProduct.ts
   hooks/
     index.ts
-    blocks.ts
+    products.ts
+    productForm.ts
   ui/
     index.ts
-    BlocksListPage.tsx
+    ProductsListPage.tsx
+    ProductFormPage.tsx
   README.md
 ```
 
@@ -83,7 +86,7 @@ shop/tags/                    ← a box, flat
   README.md
 ```
 
-and a slice that has grown groups its files, with the barrel still the one door:
+and a slice that has grown groups its files, with the barrel still the one entry:
 
 ```
 orders/handlers/             ← a slice with many files
@@ -92,7 +95,6 @@ orders/handlers/             ← a slice with many files
     getOrder.ts
     listOrders.ts
   payments/
-    beginPayment.ts
-  checkout/
-    placeOrder.ts
+    confirmPayment.ts
+    recordTransfer.ts
 ```

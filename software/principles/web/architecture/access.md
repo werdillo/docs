@@ -27,9 +27,9 @@
 
 ## Roles are named maps; grants are the check
 
-A role is a named access map the organization keeps. It is a way to write grants
+A role is a named access map the organisation keeps. It is a way to write grants
 in bulk, not a second check: the gate reads only the per-section grants
-([how it is kept here](../../conventions/architecture.md#roles-and-grants-here)).
+(the project's conventions — architecture).
 
 - **Assigning a role** writes its map as the member's sections on the project,
   and records the role beside them. The record exists only while the role is held.

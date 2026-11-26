@@ -57,6 +57,8 @@ own, `tidy.zig`, that walk `src/` through `std.Io.Dir`; a reference version
 is in the [example](../example/service-tests.md#the-guards).
 
 ```zig
+const lines_max: u32 = 16 * 1024;
+
 /// Text that never appears outside a test, and what to write instead.
 const banned = [_]struct { text: []const u8, instead: []const u8 }{
     .{ .text = "catch {}", .instead = "handle the error, or `catch unreachable` with a reason" },
@@ -65,18 +67,27 @@ const banned = [_]struct { text: []const u8, instead: []const u8 }{
 
 /// Exceptions, each with its reason. An entry that no longer matches fails, so the list shrinks.
 const known = [_]struct { path: []const u8, rule: []const u8, reason: []const u8 }{};
+
+/// Recorded dependencies allowed in `build.zig.zon`, each with its reason in project conventions.
+const recorded_dependencies = [_][]const u8{};
 ```
 
 ```zig
+/// Strips any trailing `//` comment and spaces so syntax checks ignore comments.
+fn strip_comment(line: []const u8) []const u8 {
+    const end = std.mem.indexOf(u8, line, "//") orelse line.len;
+    return std.mem.trimEnd(u8, line[0..end], " \t\r");
+}
+
 /// The first line of a function longer than the limit, or null. Relies on the formatter: a
 /// function ends at the first `}` with its own indentation. A function that returns a type
 /// is a type's body, and its methods are counted instead.
-fn tidy_function_length(source: []const u8) ?u32 {
-    var lines: [16 * 1024][]const u8 = undefined;
+fn tidy_function_length(source: []const u8) error{FileTooLong}!?u32 {
+    var lines: [lines_max][]const u8 = undefined;
     var lines_count: u32 = 0;
     var split = std.mem.splitScalar(u8, source, '\n');
     while (split.next()) |line| {
-        assert(lines_count < lines.len);
+        if (lines_count == lines_max) return error.FileTooLong;
         lines[lines_count] = line;
         lines_count += 1;
     }
@@ -94,9 +105,39 @@ fn tidy_function_length(source: []const u8) ?u32 {
 
 fn function_returns_type(lines: []const []const u8) bool {
     for (lines) |line| {
-        if (std.mem.endsWith(u8, line, "{")) return std.mem.endsWith(u8, line, ") type {");
+        const code = strip_comment(line);
+        if (std.mem.endsWith(u8, code, "{")) return std.mem.endsWith(u8, code, ") type {");
     }
     return false;
+}
+
+/// Checks a non-test line for `catch unreachable` without a reason, and a door (`root.zig`)
+/// for `anyerror` or `pub var`.
+fn check_line(line: []const u8, is_door: bool) ?[]const u8 {
+    const code = strip_comment(line);
+    if (std.mem.indexOf(u8, code, "catch unreachable") != null and
+        std.mem.indexOf(u8, line, "//") == null)
+    {
+        return "`catch unreachable` requires a `//` comment on the same line stating why";
+    }
+    if (is_door) {
+        if (std.mem.indexOf(u8, code, "anyerror") != null) return "`anyerror` in a door";
+        if (std.mem.indexOf(u8, code, "pub var ") != null) return "`pub var` in a door";
+    }
+    return null;
+}
+
+/// Checks `build.zig` for unsafe release mode and `build.zig.zon` for unrecorded dependencies.
+fn check_build_files(build_zig: []const u8, build_zon: []const u8) ?[]const u8 {
+    if (std.mem.indexOf(u8, build_zig, ".fast") != null) {
+        return "release mode `.fast` is forbidden; use `.safe` (or `.small` when measured)";
+    }
+    if (std.mem.indexOf(u8, build_zon, ".dependencies") != null) {
+        if (!all_dependencies_recorded(build_zon, &recorded_dependencies)) {
+            return "unrecorded dependency in `build.zig.zon`";
+        }
+    }
+    return null;
 }
 ```
 
@@ -106,13 +147,22 @@ fn function_returns_type(lines: []const []const u8) bool {
   line of its closing brace at the same indentation. It relies on the
   formatter's layout, which is why the format check runs first. A function
   that returns a type — a generic container — is a type's body, not a
-  function's, so the guard counts the methods inside it instead.
-- **Banned text** never appears outside a test, and each entry says what to
-  write instead.
-- **A `pub var` in a `root.zig`** fails: a door exports functions, not state.
+  function's, so the guard counts the methods inside it instead. A file past
+  `lines_max` fails with `error.FileTooLong` rather than asserting on file
+  input.
+- **Banned text** (`catch {}`, `@setRuntimeSafety(false)`) never appears
+  outside a test, and each entry says what to write instead.
+- **`catch unreachable` without a comment** on the same line fails: every use
+  states why the error cannot occur.
+- **`anyerror` or `pub var` in a `root.zig`** fails: a door names its error
+  set and exports functions, not mutable state.
+- **Release mode in `build.zig`** fails on `.fast`: releases ship in `.safe`
+  (or `.small` when a firmware image does not fit).
 - **Every folder in `src/` is on the layer map**: the test reads `build.zig`
   and looks for each folder's name there, so a folder outside every module —
   where the compiler would not see it — cannot be left behind.
+- **Dependencies in `build.zig.zon`**: every entry under `.dependencies` must
+  appear in `recorded_dependencies`.
 
 **The build must not cache them.** The test's binary does not change when
 the files it reads change, so the build would replay its last result and

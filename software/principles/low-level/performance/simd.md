@@ -39,17 +39,17 @@ pub fn gain_apply_scalar(samples: []i16, gain: Gain) void {
 ```
 
 ```zig
-// Every length from empty to past a few vectors, so the tail is tested at each size.
-const size = random.uintAtMost(u32, vector.len);
-for (vector[0..size]) |*sample| sample.* = random.int(i16);
-vector[0] = std.math.minInt(i16);
-if (size > 1) vector[size - 1] = std.math.maxInt(i16);
-@memcpy(scalar[0..size], vector[0..size]);
+// Every length from empty to past a few vectors, so the tail is tested at each count.
+const count = random.uintAtMost(u32, vector.len);
+for (vector[0..count]) |*sample| sample.* = random.int(i16);
+if (count > 0) vector[0] = std.math.minInt(i16);
+if (count > 1) vector[count - 1] = std.math.maxInt(i16);
+@memcpy(scalar[0..count], vector[0..count]);
 
 const gain: Gain = .{ .q15 = random.uintAtMost(u16, 32768) };
-gain_apply(vector[0..size], gain);
-gain_apply_scalar(scalar[0..size], gain);
-try std.testing.expectEqualSlices(i16, scalar[0..size], vector[0..size]);
+gain_apply(vector[0..count], gain);
+gain_apply_scalar(scalar[0..count], gain);
+try std.testing.expectEqualSlices(i16, scalar[0..count], vector[0..count]);
 ```
 
 The scalar version is easy to check by reading; the vector version is
@@ -68,7 +68,7 @@ const Lanes16 = @Vector(lanes, i16);
 pub fn gain_apply(samples: []i16, gain: Gain) void {
     assert(gain.q15 <= 32768);
     const gain_lanes: Lanes32 = @splat(gain.q15);
-    const vectors_count = samples.len / lanes;
+    const vectors_count = @divFloor(samples.len, lanes);
 
     for (0..vectors_count) |vector_index| {
         const block = samples[vector_index * lanes ..][0..lanes];
@@ -149,19 +149,19 @@ frames, a DMA transfer — it is a comptime parameter, and the loop's count is
 a constant the compiler can unroll:
 
 ```zig
-/// A block of a size known at compile time: the loop's count is a constant.
+/// A block of a count known at compile time: the loop's count is a constant.
 pub fn mix_block(
-    comptime block_size: u32,
-    target: *[block_size]i16,
-    source: *const [block_size]i16,
+    comptime block_count: u32,
+    target: *[block_count]i16,
+    source: *const [block_count]i16,
 ) void {
-    comptime assert(block_size % 4 == 0);
+    comptime assert(block_count % 4 == 0);
     for (target, source) |*sample, addition| sample.* +|= addition;
 }
 ```
 
-The pointers to arrays carry the size in the type, so a call with the wrong
-buffer is a compile error, and the assertion on the size is checked once, by
+The pointers to arrays carry the count in the type, so a call with the wrong
+buffer is a compile error, and the assertion on the count is checked once, by
 the compiler.
 
 ## Other instructions of the machine
@@ -169,8 +169,8 @@ the compiler.
 - **Prefetch** (`@prefetch`) for a loop that walks memory the hardware
   cannot predict, with every option written out
   ([options are explicit](../safety/errors.md#options-are-explicit)).
-- **`@branchHint(.cold)`** on a path that should not be laid out with the
-  hot one: a refusal, a panic handler.
+- **`@branchHint(.cold)`** on a path kept out of the hot one: a refusal, a
+  panic handler.
 - **Alignment** with `align(n)` on a buffer that a vector load or a DMA
   engine requires to be aligned, and an assertion where a slice of it is
   taken.

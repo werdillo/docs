@@ -35,7 +35,7 @@ copy. A `// …` marks where a quote is trimmed.
 ## What they leave out
 
 The service has no real network adapter here: it runs against the
-simulation, because how it should sit on io_uring is an open question
+simulation, because how it sits on io_uring is an open question
 ([`std.Io` on io_uring](../open-questions.md#stdio-on-io_uring-and-the-tick)).
 It also leaves out TLS, keep-alive, several ranges in one request and caching
 headers. The firmware's register addresses are placeholders, and its linker

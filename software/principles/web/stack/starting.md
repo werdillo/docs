@@ -6,7 +6,7 @@
   a product UI is a reactive single-page app; a site is static-first. A project
   that is both has a site and, if it needs an editor, an app.
 - The stack is chosen once. A concern that looks missing is added to the
-  project's [conventions](../../conventions/README.md) and to these principles
+  project's conventions and to these principles
   when it is general — not swapped for a personal favourite in one project.
 
 ## Day one: the decisions to make
@@ -40,5 +40,5 @@
 
 The **architecture** rules — layers, boundaries, contracts, data discipline —
 are in [`architecture/`](../architecture/README.md); they do not change with the
-tools. Each project keeps its realisation of this stack in its
-[conventions](../../conventions/README.md).
+tools. Each project keeps its realisation of this stack in the project's
+conventions.

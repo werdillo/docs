@@ -18,7 +18,8 @@ never in a cycle
   access, object and array literals. A call, a function or an operator in the
   part is a violation; the code belongs in a service the part names.
 - **Cycles.** No two door files reach each other, directly or through other
-  files. A cycle between plain files with no door on it is allowed.
+  files, and a `shared` never reaches a box of its matrix. A cycle between plain
+  files with no door on it is allowed.
 - **A group's entry.** A group's entry and router reach the group's own boxes
   only through their doors; its `shared/` and its layer folders are its own.
 - **Commands.** A box's commands file is a list of `export { … } from "./…"`
@@ -28,17 +29,18 @@ never in a cycle
   reaches them without naming them.
 - **A process.** A process imports a box only through its door, never its
   routes or handlers; a door never imports a process; processes may import each
-  other; a process declares no table and imports at least one box's door.
+  other one way only (no cycle between processes); a process declares no table
+  and imports at least one box's door.
 - **The overlay entry.** A composition layer may reach one named file of a box
   — an overlay's file, or a folder's entry — and nothing else in the box. The
   marker half of the overlay is readable; the overlay itself is not. The
   exception is a path in the guard's list, not a flag on the file.
 
 A front end adds variants: a box's `api/` is reached from nothing outside the
-box (a group's `shared/` from its group), a box's routes file is its second door
-— a group lists the declarations, never the screens — and a box's files never
-reach back through their own door. Its `services/` files are pure decisions: no
-framework, no reactive sibling, no client, no DOM, no storage.
+box (a group's `shared/` from its group), a box's routes file is its route
+declaration — a group lists the declarations, never the screens — and a box's
+files never reach back through their own door. Its `services/` files are pure
+decisions: no framework, no reactive sibling, no client, no DOM, no storage.
 
 ## The failure
 
@@ -48,7 +50,7 @@ call`. A client's door failure also names where the import landed and where the
 door is:
 
 ```
-shop/pages/ui/Page.tsx → ../gallery/ui/Picker (lands in shop/gallery/ui/Picker.tsx; the box's door is shop/gallery/index.ts)
+shop/carts/ui/CartPage.tsx → ../products/ui/PriceTag (lands in shop/products/ui/PriceTag.tsx; the box's door is shop/products/index.ts)
 ```
 
 ## The template
@@ -73,7 +75,7 @@ is read as data:
 
 ```ts
 const ALLOWED = /^(import\b|export\s+(type|interface)\b|export\s+(\*(\s+as\s+\w+)?|\{\})(\s+from\s+["'][^"']+["'])?$)/;
-const PART = /export\s+const\s+(\w+Part)\s*=\s*declarePart\(/;
+const PART = /export\s+const\s+(\w+Part)\s*=\s*part\(/;
 const DATA = /^[\s\w$.,:{}[\]'"]*$/;
 const CODE_WORD = /\b(function|async|await|new|class|this|super|typeof|instanceof|in|void|delete|yield|return|import|export|as|satisfies)\b/;
 ```

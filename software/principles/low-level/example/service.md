@@ -13,7 +13,8 @@ Before any code ([sketch before building](../performance/sketch.md#sketch-before
 - **Where the cost is.** The network link bounds throughput. The body goes
   from the file to the socket in the kernel, in chunks of at most 256 KiB, so
   a connection's own memory is only a buffer for the request: 16 KiB.
-- **What it adds up to.** 4,096 × 16 KiB = 64 MiB, allocated once.
+- **What it adds up to.** 4,096 × 16 KiB = 64 MiB for the request buffers,
+  plus the pool slots and active list (< 1 MiB), allocated once at startup.
 - **What it refuses.** A connection past the pool, a head past 8 KiB, a path
   that leaves the root or is percent-encoded, a method that is not `GET` or
   `HEAD`, a version that is not 1.1, a connection idle for 30 seconds.
@@ -28,8 +29,6 @@ src/
   main.zig                ← entry point and composition root
   simulation.zig          ← the second composition root: a simulated network, disk and clock
   tidy.zig                ← the text guards
-bench/
-  parse_request.zig       ← a benchmark with its budget
   limits/root.zig         ← every limit, and the relations between them
   core/
     root.zig              ← door: Pool, StaticAllocator
@@ -50,9 +49,12 @@ bench/
     server.zig            ← the tick and the connection's states
     answer.zig            ← pure: a request and a file's size → what to send
     network.zig           ← the interface the network is passed in through
+bench/
+  parse_request.zig       ← a benchmark with its budget
 ```
 
-Each folder is a box and a module
+Each folder under `src/` is a box and a module in the four-layer stack
+`limits ← core ← boxes ← main`
 ([the layer map is the build](../structure/boxes.md#the-layer-map-is-the-build)).
 The map, in `build.zig`:
 
@@ -66,8 +68,9 @@ const layer_map = [_]Box{
 };
 ```
 
-`http` knows `files`, because a request carries a confined path; `files`
-knows nothing of HTTP. `server` uses all of them and is used by none.
+`limits` imports nothing and `core` imports only `std`. `http` knows `files`,
+because a request carries a confined path; `files` knows nothing of HTTP.
+`server` uses all of them and is used by none.
 
 ## The limits
 
@@ -95,8 +98,9 @@ comptime {
     assert(path_depth_max * 2 <= path_size_max);
 }
 
-/// What the process allocates at startup, known before it runs.
-pub const memory_size_max: u64 = @as(u64, connections_max) * request_buffer_size;
+/// Request buffers allocated at startup (64 MiB); the pool slots and active list sit beside
+/// them in two small allocations.
+pub const request_buffers_size_max: u64 = @as(u64, connections_max) * request_buffer_size;
 ```
 
 Each relation is one a future change could break without noticing. The
@@ -111,7 +115,7 @@ could use it unchanged. It allocates once and gives out handles
 ([one owner](../safety/memory.md#one-owner-and-handles-for-the-rest)):
 
 ```zig
-pub fn init(gpa: std.mem.Allocator, count: u32) !Self {
+pub fn init(gpa: std.mem.Allocator, count: u32) std.mem.Allocator.Error!Self {
     assert(count > 0);
 
     var slots: std.MultiArrayList(Slot) = try .initCapacity(gpa, count);

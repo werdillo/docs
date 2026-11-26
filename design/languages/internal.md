@@ -50,8 +50,7 @@ the rest, and depth only on what floats.
   shadow is only on what floats — a menu, a dialog, the command palette.
 - **Weights are a short scale**: a reading weight, a label weight a step heavier,
   an announcing weight a step heavier again; never the heaviest weight of the
-  family. The values and the typeface are the theme's
-  ([conventions](../../conventions/admin.md#the-look-here)).
+  family. The values and the typeface belong to the project's theme.
 
 ## Dense
 
@@ -75,7 +74,8 @@ the rest, and depth only on what floats.
 
 ## Few screen shapes
 
-Every screen is one of four shapes; a screen that needs another is a missing
+An internal system uses four of the canonical screen shapes
+([patterns](../patterns/README.md)); a screen that needs another is a missing
 shape, settled in the kit, not invented in place.
 
 - **A list** — a header bar (title, count, view switch, the one primary
@@ -97,11 +97,12 @@ The frame — sidebar, header bar, palette — is the same around all four.
 
 ## Navigation
 
-A domain's sidebar is declared in one place, in the order it is used: the
-screens a person works through every day come first, and what is set up once
-sits in a fold at the end. Each box exports only its own item, and the domain's
-declaration places it. Folders and URLs do not follow the menu: a fold's address
-is its first screen's, and a box stays in the folder of its subject.
+The composition root declares the sidebar in one place, grouped by domain and
+ordered by use: the screens a person works through every day come first, and
+what is set up once sits in a fold at the end. Each box exports only its own
+item, and the composition root places it. Folders and URLs do not follow the
+menu: a fold's address is its first screen's, and a box stays in the folder of
+its subject.
 
 ## Keyboard first
 

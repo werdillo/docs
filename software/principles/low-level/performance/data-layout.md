@@ -34,6 +34,7 @@ fn find_expired(active_ms: []const u64, now_ms: u64, timeout_ms: u64, expired: [
     assert(expired.len >= active_ms.len);
     var expired_count: u32 = 0;
     for (active_ms, 0..) |active, index| {
+        assert(now_ms >= active);
         if (now_ms - active > timeout_ms) {
             expired[expired_count] = @intCast(index);
             expired_count += 1;

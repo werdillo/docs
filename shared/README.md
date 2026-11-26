@@ -14,6 +14,7 @@ and the code keeps them as folders, under the same names.
 | [`words.md`](./words.md) | The core words, defined once for every section. |
 | [`matrix.md`](./matrix.md) | The idea: boxes, a matrix, the levels around it, and how boxes interact. |
 | [`mapping.md`](./mapping.md) | What each word is in each section — product, design, web, low-level. |
+| [`writing.md`](./writing.md) | How the documents are written — sentences, words, numbers, rules, examples, pages, links — so a new one reads like the others. |
 
 **This is the source.** Business development, software and design all reason
 in the feature matrix, so it is defined here and nowhere else. A section

@@ -5,10 +5,10 @@ request answers quickly, the job runs in the background and records its result
 ([long work](../architecture/data.md#long-work-is-a-job-never-a-request);
 [the principles](../rules.md), rule 9).
 
-The rule is a default; the guard pins the routes that were converted. It does
-not prove that no other route should be a job — that is review — but it proves
-that a route answering with a job keeps doing so, and that a new route in those
-routers which queues work is added to the list.
+The guard pins the routes that were converted. It does not prove that no other
+route belongs in a job — that is review — but it proves that a route answering
+with a job keeps doing so, and that a new route in those routers which queues
+work is added to the list.
 
 ## An export is a job
 

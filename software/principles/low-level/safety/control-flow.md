@@ -56,9 +56,10 @@ A loop is one of three kinds, and each says which it is.
    is reached is decided: an error, a refusal, or an assertion when reaching
    it would be a bug.
 3. **Meant never to end.** The main loop — an event loop, a firmware
-   super-loop — and nothing else. It is one `while (true)` in `main`, with a
-   comment that says so, and each turn of it is bounded
-   ([its own pace](#the-program-runs-at-its-own-pace)).
+   super-loop — and the halt after a hardware reset request in a firmware
+   panic handler, and nothing else. Each is a `while (true)` in `main` with
+   a comment that says why it never ends, and each turn of the main loop is
+   bounded ([its own pace](#the-program-runs-at-its-own-pace)).
 
 An iterator's `while (it.next()) |x|` is the first kind when the iterator
 walks a bounded slice. Over anything from outside — a socket, a directory, a

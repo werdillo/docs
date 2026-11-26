@@ -1,5 +1,13 @@
 # Growing the shop
 
+The first version of Small shop
+([the product document](../../../../bizdev/product-document/example.md)) ships
+with `products`, `carts`, `stock`, `orders`, `place-order`, `cancel-order` and
+`browse-catalogue`, served by the API, the public site (`apps/site/`) and the
+admin (`apps/admin/`). The steps below are **v2 of the shop**: adding admin
+search, a sales report, shopper accounts and a `loyalty` domain, `shared/ledger`
+for price adjustments, and `manage-cart`.
+
 ## 7. Search: a plug
 
 The admin's search is `features/search`, below every domain, and it may not
@@ -12,7 +20,7 @@ layers below, through its door ([the seam](../architecture/seams.md#invert-the-d
 export type SearchSource = { section: string; find(db: Db, projectId: string, text: string): Promise<Hit[]> };
 
 // shop/products/index.ts — the box's part: the tables it owns, and its plugs
-export const productsPart = definePart({ tables: [products], search: [productSearch] });
+export const productsPart = part({ section: "shop", tables: [products], search: [productSearch] });
 
 // shop/index.ts — the domain entry lists its parts
 export const shop = domain("shop", [productsPart, cartsPart, stockPart, ordersPart]);
@@ -65,7 +73,7 @@ The event rides in the order's batch, so the two land together or not at all.
 statement in the same batch:
 
 ```ts
-// shop/_processes/place-order/services/line.ts — one more statement in the batch
+// shop/_processes/place-order/line.ts — one more statement in the batch
 await db.batch([
   ...placedStatements(db, order),
   queueEvent(db, orderPlaced(order)),
@@ -80,11 +88,11 @@ another domain and domains never import each other:
 export const ORDER_PLACED = "order.placed" as const;
 
 export type OrderPlaced = {
-  type: typeof ORDER_PLACED; orderId: string; customerId: string; total: Money;
+  id: string; type: typeof ORDER_PLACED; orderId: string; customerId: string; total: Money;
 };
 
 export const orderPlaced = (order: Order): OrderPlaced => ({
-  type: ORDER_PLACED, orderId: order.id, customerId: order.customerId, total: order.total,
+  id: newId(), type: ORDER_PLACED, orderId: order.id, customerId: order.customerId, total: order.total,
 });
 ```
 
@@ -121,14 +129,23 @@ api/src/shop/
   products/  carts/  stock/  orders/  reports/
   _processes/
     place-order/        ← carts, orders, products, stock
-    manage-cart/        ← carts, products
+    cancel-order/       ← orders, stock
+    manage-cart/        ← carts, products, shared/ledger
     browse-catalogue/   ← products, stock, carts — reads only
   index.ts              ← routers, and domain("shop", [productsPart, …])
 ```
 
-`loyalty` is a second domain, a peer: it has its own tree and its own parts,
-and the event contract in the contracts package is the only thing between them.
-The grid stays the shop's grid.
+`cancel-order` sits beside `place-order`: cancelling an unpaid order updates
+`orders` and returns `stock` in one batch. In v2, price adjustments enter cart
+editing through `shared/ledger`, so editing a cart now coordinates `carts`,
+`products` and `shared/ledger`: that work moves into `manage-cart`, replacing
+the direct `carts → products` import from step 2.
+
+Beside the API and `apps/admin/`, the public storefront lives in `apps/site/`
+— static-first, built to the [site rules](../site/README.md), sharing the same
+contracts package — while `loyalty` is a second domain, a peer with its own tree
+and parts, connected only through the event contract. The grid stays the shop's
+grid.
 
 Read as a grid, the matrix is now as quiet as it gets:
 

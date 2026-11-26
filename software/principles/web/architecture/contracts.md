@@ -42,15 +42,14 @@ the totals — beside `id`, with the timestamps in `meta`. Aim for about nine or
 ten top-level keys. Above ten is a warning, not a failure: a soft check in the
 test suite prints it. A shape that stays large on purpose is listed in that
 check with its reason, and an entry no longer above the signal fails, so the
-list only shrinks ([how it is checked
-here](../../conventions/contracts.md#a-record-is-flat-what-is-sent-is-grouped)).
+list only shrinks (the project's conventions — contracts).
 
 A record that mirrors a table row stays flat, and is mapped to its view at the
 edge by a function (`toXView`) written field by field, so a column added to a
 table is sent to no one until someone says where it belongs. A request body is
 laid out in the same groups where that reads better; one that mirrors the record
 it writes whole stays as large as the record, and says why in `KEPT`. The layout
-is in [the conventions](../../conventions/contracts.md#a-record-is-flat-what-is-sent-is-grouped).
+is in the project's conventions — contracts.
 
 ## Say no with a value
 

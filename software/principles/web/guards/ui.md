@@ -15,12 +15,13 @@ The guard walks every component file outside the kit's folder and fails on:
 - **a text size on any element or kit component** — a size is a variant of the
   kit's text component, never a class;
 - **an inline `style`**, an `!` utility, a hand-typed page width, a width on a
-  dialog's content, and a palette colour (a semantic token is the colour a
-  screen may name).
+  dialog's content, and a raw or direct colour utility (a screen picks a kit
+  tone variant such as `tone="muted"` or `tone="danger"`, never a palette colour
+  or direct token).
 
 The exceptions are a list of `{ file, rule, reason }`; a listed file must still
-break its rule, or the entry fails. The kit's names are in the front end's
-convention ([admin](../../conventions/admin.md)).
+break its rule, or the entry fails. The kit's names are in the project's
+conventions — front end.
 
 Failure: `file:line [rule] text`.
 

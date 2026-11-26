@@ -34,8 +34,9 @@ reader — in that order. Names have a page of their own,
 | Braces | on every `if` that does not fit on one line | no statement silently outside its branch |
 
 To wrap a long signature, call or literal, add a trailing comma and let the
-formatter lay it out. The line and function limits have no exceptions list;
-the others are the formatter's and cannot be broken.
+formatter lay it out. The function length limit and the formatter take no
+exceptions list; line length allows a known-list entry only for a single long
+string literal or URL ([a known list](../testing/guards.md#a-known-list-with-reasons)).
 
 ## Commits
 

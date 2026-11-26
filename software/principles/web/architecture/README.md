@@ -15,7 +15,7 @@ composition root), and the rules a box obeys **wherever it sits** — contracts,
 doors, data. The rules are stated without tools; where the [stack](../stack/README.md)
 gives one of them its shape, the rule says so and links there.
 
-The principles are numbered once, in [the principles' README](../README.md); this folder
+The principles are numbered once, in [the principles](../rules.md); this folder
 expands them, and [`example/`](../example/README.md) shows them in code.
 
 ## In this folder

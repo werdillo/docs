@@ -15,9 +15,11 @@ features and domains — renders through it.
   six headings and three body sizes. Any text on any screen is one of them; a
   tenth size is a question for the kit, not a class on a screen. Its colour is
   **inherited** unless one is named, so text inside a muted block, a button or a
-  tooltip takes its parent's colour without a fight, and a named colour is a
-  semantic token — muted, primary, destructive, warning, success — never a
-  palette colour.
+  tooltip takes its parent's colour without a fight. A screen picks a kit tone
+  variant (`tone="muted"`, `tone="danger"`), and the kit maps each tone to an
+  OpenDesign semantic token — `accent`, `danger`, `warn`, `success`, `muted` —
+  never a palette colour; a screen reaches no token directly
+  ([tokens](../../../../design/system/tokens.md)).
 - **A state is a variant, chosen from data.** A status badge, a tone, a size is
   a prop the kit defines; a screen maps its data to it (`status → variant`) in
   a small table, never to a class string. The map is then the one place that

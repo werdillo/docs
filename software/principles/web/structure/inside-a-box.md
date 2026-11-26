@@ -55,9 +55,8 @@ more files of its own:
 **A single file is not a folder.** Until a slice has two files, its one file sits
 beside the box's entry file, named for its role — `api.ts`, `services.ts`,
 `hooks.ts` — and a component keeps its own name in `ui` (`OrderPage.tsx`). The
-folder appears with the second file, and the box's door does not change. The
-guards that check it fail a role folder that holds fewer than two files, on
-both tiers ([guards](../guards/README.md)).
+folder appears with the second file, and the box's door does not change. It is a
+default held by review on both tiers, not a failing guard.
 
 A package's guide may name one extra optional slice of its own, once, in that
 guide: a box's public face, say, or the routes an outside visitor calls (the

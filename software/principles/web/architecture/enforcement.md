@@ -10,14 +10,18 @@ Write these the day the structure exists, and they will keep it:
 | Commands | a box imports another box's command — a name in its `commands.ts`, which the door re-exports whole — anywhere outside `_processes/` |
 | Schema | the latest migration snapshot and the models disagree |
 | Cross-box keys | a foreign key points at another box's table |
+| Foreign joins | a query joins tables owned by different boxes |
 | Owned writes | a table is written by a file outside its owner — directly, through a re-export, or through a helper on the test's list |
+| Table declarations | a table is declared by no part, by two parts, or with the same SQL name in two files |
 | Public surface | an exported name is not on the promised list |
-| Views | a list carries a field the list does not show, or a read returns a secret to a caller who may not write it |
+| Two halves | plain TypeScript imports a framework-only component or a file under `ui/` |
+| Views *(behaviour guard)* | a list carries a field the list does not show, or a read returns a secret to a caller who may not write it (tested beside each box, not in `guards/`) |
 | Same place | a box of one package sits at a different path in another |
 | Access | a route no gate covers, or a public write with no limit |
 | Mounts | a mounted router that does not carry its own gate, so moving it would leave its routes behind |
 | Jobs | long work answers a request again instead of queueing a job |
-| Kit usage | a screen file outside the UI kit holds a raw control or table, a text size on an HTML tag, an `!important` utility or a hand-typed page width ([screens](../ui/kit.md#the-kit-is-the-only-place-that-draws)) |
+| Kit usage | a screen file outside the UI kit holds a raw control or table, a text size on an HTML tag, an `!important` utility, a hand-typed page width or a direct colour utility ([screens](../ui/kit.md#the-kit-is-the-only-place-that-draws)) |
+| Site | a built page lacks its head, an internal link misses, the sitemap drifts from the pages, a published address is lost, or a product UI lacks `noindex` ([site](../guards/site.md)) |
 
 Each row is documented, with what its test checks and what it cannot see, in
 [`guards/`](../guards/README.md).
@@ -52,5 +56,5 @@ the source, not a runtime proxy, and whatever the tool, it does four things:
   one that writes another box's table is a review question.
 
 It is a guardrail, not a proof: it catches the direct and the re-exported write,
-and the rest is the rule plus review. How a project implements it is in its
-[conventions](../../conventions/README.md).
+and the rest is the rule plus review. How a project implements it is in the
+project's conventions.

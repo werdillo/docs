@@ -69,12 +69,11 @@ its relations, stub one answer — declared once, imported everywhere
 
 ## One command
 
-The gate is one command — types, lint and the unit tests
+The gate is one command — types, lint, unit tests and database tests
 ([one command checks everything](../rules.md), rule 41). The browser and live
 tiers have their own commands beside it, and CI runs those same commands, never
 a second invocation that drifts. On this stack the commands are in the
-[stack](../stack/README.md) and the project's
-[testing convention](../../conventions/testing.md).
+[stack](../stack/README.md) and the project's conventions — testing.
 
 ## In this folder
 

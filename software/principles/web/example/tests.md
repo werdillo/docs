@@ -13,8 +13,9 @@ carts → orders.order_lines
 carts/services.ts: db.insert(orderLines)
 ```
 
-The write belongs in `orders`, which exports `placedStatements`; `carts` may put
-that statement in a batch, never build a statement on `orders`' table.
+The write belongs in `orders`, which exports `placedStatements`; `place-order`
+(the process) puts that statement in its batch — `carts` neither builds a
+statement on `orders`' table nor calls `orders`' commands.
 
 ## The guard
 

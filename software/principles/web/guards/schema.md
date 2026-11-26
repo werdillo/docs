@@ -5,7 +5,7 @@
 migration, written as the diff from the previous snapshot; the first migration
 is the frozen baseline and is never regenerated. A model changed without its
 migration fails here, not as a missing column at run time. The commands that
-write migrations are in the project's convention ([api](../../conventions/api.md#data)).
+write migrations are in the project's conventions — API.
 
 ## What it checks
 

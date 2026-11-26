@@ -1,8 +1,9 @@
 # Docs
 
 Principles and guides, written to be read by people and turned into agent
-skills. Each section is a source of truth and keeps its own `skills/` folder,
-built from the section's documents, never written beside them.
+skills. Each section is a source of truth and keeps its own `skills/` folder:
+hand-written `SKILL.md` instructions with `references/` copied from the
+section's documents and `evals/` beside them.
 
 | Section | What it holds |
 |---|---|
@@ -14,8 +15,17 @@ built from the section's documents, never written beside them.
 
 ## Conventions
 
+The full style is in [`shared/writing.md`](./shared/writing.md); in short:
+
 - **English only.** Every document here is written in English.
 - **Relative links.** Documents link to each other with relative Markdown
   links, so the tree reads the same on GitHub, in an editor and in Obsidian.
 - **One README per folder.** A folder's README is its entry point: what it is
   for, and a table of what is in it. A skill starts from that README.
+
+## Building and checking
+
+- `./scripts/build-skills.sh` — rebuilds every skill's `references/` from the
+  source documents.
+- `node ./scripts/check-docs.mjs` — verifies folder READMEs, relative Markdown
+  links and anchors, `references/` sync, British spelling and rule style.

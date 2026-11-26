@@ -75,13 +75,14 @@ grouped by meaning, [wire shapes](./architecture/contracts.md#a-wire-shape-is-gr
 kit components only, layout classes at most → text in one scale → states as
 variants from data → three repeats become kit → exported shape first, named
 private blocks below ([screens and the kit](./ui/README.md)). The frame is
-reached through the frame module ([the frame](./ui/screen-files.md#the-frame)); a
+reached through its seam in `core` ([the frame](./ui/screen-files.md#the-frame)); a
 domain's menu is one navigation file ([navigation](../../../design/languages/internal.md#navigation))
 
 ## The tests
 
-layers · boundaries · cycles · commands · schema · cross-box keys · owned
-writes · public surface · views · same place · access · kit usage
+layers · boundaries · cycles · commands · schema · cross-box keys · foreign
+joins · owned writes · table declarations · public surface · two halves ·
+views · same place · access · mounts · jobs · kit usage · site
 ([enforcement](./architecture/enforcement.md#enforcement))
 
 ## Not this

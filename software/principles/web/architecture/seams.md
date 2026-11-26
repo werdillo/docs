@@ -44,8 +44,8 @@ The domain's list is the order its parts are installed in. Where a person sees
 an order — a backup's sections, a search's results — a part declares its rank
 for that registry rather than leaving it to the list. A front end does the same
 with the plugs as a field of each box's declaration, installed from its one
-list. How the parts are joined and ranked is the project's own, in its
-[conventions](../../conventions/architecture.md#registries-how-a-shared-thing-reaches-a-domain-without-importing-it).
+list. How the parts are joined and ranked is the project's own, in the project's
+conventions — architecture.
 
 **What a box does to its own data stays on its router.** An operation one box
 can carry out alone — exporting or restoring its own records — is routes the box
@@ -63,8 +63,8 @@ domain knows: whether the subject exists, how it is titled, and what counts as
 proof of use. A row names only its kind and id; a kind nobody registered is
 refused, and a subject that does not exist may not be acted on. The admin side
 has the same shape: a domain plugs its sections, its rows and its report pages,
-and the composition root installs them. How it is kept here is in
-[the conventions](../../conventions/architecture.md#acts-of-people).
+and the composition root installs them. How a project keeps it is in the
+project's conventions — architecture.
 
 ## A third party is reached through a port
 
@@ -103,7 +103,7 @@ contract in the group's `shared`
 
 ## The composition root is the only place that knows everything
 
-One place per package assembles it — its the app, or its entry. Every box
+One place per package assembles it — it is the app, or its entry. Every box
 **declares itself** next to its own code; the root only **lists** the
 declarations and derives the rest from that list, so nothing can disagree with
 it.

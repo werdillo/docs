@@ -71,7 +71,7 @@ or asks through the door, never a second source of truth for it.
   (`erase`), and a record kept on purpose says so. A column that names a person
   and sits in no declared table fails the column walk, so a new box cannot keep a
   name or an email that no export or erasure reaches
-  ([how it is kept here](../../conventions/architecture.md#personal-data)).
+  (the project's conventions — architecture).
 
 ## One meaning, one name, one field
 
@@ -90,7 +90,7 @@ design it. Its name is the only documentation they are sure to see.
   meant becomes one of its values.
 - **The names come from a short fixed list** for what every box has: an order
   among siblings, an on/off switch, a moment, who did it, which variety. The
-  list is written down once ([how it is kept here](../../conventions/docs-and-naming.md#naming)),
+  list is written down once (in the project's conventions — docs and naming),
   so a new table takes its words from it rather than inventing near-synonyms.
 - **A rename moves the data**, never drops it: the migration renames the column,
   and anything a value must become on the way is a data step in the same

@@ -28,13 +28,18 @@ chip's, and a compile-time assertion relates the two where it can.
 Registers are global by nature: an address that anything could write. So
 they are reached in one place.
 
-- **The interface is in `core`; the registers are in a board box.** `core`
-  declares what the program needs from the hardware, in its own terms —
-  `now_us`, `adc_read`, `radio_send`. A board box fills it, and holds every
-  `*volatile` pointer to a register. Nothing else names an address.
-- **The boards are at the top of the layer map**, above the program's
-  boxes, so that no box can import one; only `main` is given a board, and
-  hands the interface down
+- **The interface is in `board`; the registers are in a chip board box.**
+  `board` is a low subject box above `core` (importing `limits` and `core`,
+  while `core` stays stdlib-only). It declares what the program needs from the
+  hardware, in its own terms — `now_us`, `adc_read`, `radio_send`, and the
+  `Samples` ring type. A board implementation box (`board_chip` or
+  `board_host`) fills it, and `board_chip` holds every `*volatile` pointer to
+  a register. Nothing else names an address.
+- **The board implementations sit at the top of the layer map**, so the
+  program's boxes (`limits`, `core`, `board`, `filter`, `report`, `node`) sit
+  **below** `board_host` and `board_chip`. Because imports point down, no box
+  below them can import a board implementation; only `main` and the tests are
+  given one, and hand the `board` interface down
   ([the composition root](../structure/boxes.md#the-composition-root)).
 - **A board per target, and one for the host.** `main` on the chip gets the
   chip's; the tests get a simulated one. The boxes between do not know which
@@ -182,8 +187,9 @@ whole sketch, with the image measured afterwards, is in
 | simulation | on the host: the program with a simulated board — a clock that jumps, a sensor that returns noise or nothing, a bus that times out |
 | live | hardware in the loop: the build flashed to a real board, driven and read by a test on the host |
 
-The more of the program that is above the board box, the more of it is
-tested on the host, where tests are fast and deterministic.
+The more of the program that sits below the board implementations
+(`board_host` and `board_chip`), the more of it runs unchanged on the host,
+where tests are fast and deterministic.
 
 ## An example
 

@@ -14,7 +14,7 @@ it looks where the bugs are.
 ## In one line
 
 **A test lives in the file it tests, replays from one seed, and spends most
-of its effort on what should not happen.**
+of its effort on what must not happen.**
 
 ## Where a test lives
 

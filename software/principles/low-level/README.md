@@ -2,9 +2,12 @@
 
 How to write a low-level program so that **what it can do is bounded and
 visible** — its memory, its loops, its failures and its dependencies — and so
-that where a thing is still says what it is. Written for any program in Zig —
-a service, firmware for a microcontroller, a library, a tool — to be copied
-into a new project on day one and kept for its life.
+that where a thing is still says what it is. Written for any program in Zig — a service, firmware for a microcontroller, a
+library, a tool — to be copied into a new project on day one and kept for its
+life. The ideas — bounded memory, fixed loops, explicit errors and simulation
+— apply to any systems language; the rules, examples and guards here are
+expressed in Zig. Learning Zig itself lives in
+[`languages/zig/`](../../languages/zig/README.md).
 
 Three sources, one set of rules:
 [NASA's Power of Ten](https://spinroot.com/gerard/pdf/P10.pdf) for what a
@@ -42,9 +45,11 @@ The core words and the matrix, shared by every section of this repository, are i
 - **The program runs at its own pace.** An outside event — a connection, an
   interrupt — is recorded; the main loop does a bounded batch of each kind of
   work per turn.
-- **The code is a stack of layers, and imports point down**: `core ← boxes ←
-  main`. A **box** is one subject, with its own state, reached through its
-  **door**. `main` is the only place that knows everything.
+- **The code is a stack of layers, and imports point down**: `limits ← core ←
+  boxes ← main`. `limits` holds compile-time bounds and imports nothing; `core`
+  holds reusable primitives with no subject of the program and imports only
+  `std`; subject **boxes** sit above `core`, each with its own state, reached
+  through its **door**. `main` is the only place that knows everything.
 - **One owner per piece of state.** Everyone else holds a handle — an index
   into the owner's pool — not a pointer. Threads and interrupts share only
   what is named for it.
